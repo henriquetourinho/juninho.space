@@ -7,17 +7,13 @@
     <title>Uma Mensagem Especial Para Você ❤️</title> 
     
     <meta name="description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
-    
     <meta property="og:site_name" content="Juninho Space">
     <meta property="og:title" content="O Presente Mais Inovador que Você Já Viu">
     <meta property="og:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
     <meta property="og:image" content="https://juninho.space/capa.png">
     <meta property="og:url" content="https://juninho.space">
     <meta property="og:type" content="website">
-
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="O Presente Mais Inovador que Você Já Viu">
-    <meta name="twitter:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
     <meta name="twitter:image" content="https://juninho.space/capa.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +108,7 @@
             opacity: 1;
         }
 
-        /* --- TELA DE ENVELOPE (REVISADA) --- */
+        /* --- TELA DE ENVELOPE (VISUAL PERFEITO COMO SOLICITADO) --- */
         #envelope-screen {
             position: fixed;
             top: 0;
@@ -138,7 +134,6 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            /* NOVO: Garante que o corpo do envelope esteja visível por baixo da aba */
             z-index: 1; 
         }
         .envelope-flap {
@@ -147,20 +142,19 @@
             left: 0;
             width: 0;
             height: 0;
-            /* Triângulo rosa, centralizado no topo */
+            /* Aba triangular rosa, centralizada no topo */
             border-left: 125px solid transparent;
             border-right: 125px solid transparent;
             border-bottom: 75px solid #ff99aa;
             border-radius: 5px;
             transform-origin: top;
             transition: transform 0.5s ease;
-            /* Z-index 3 para garantir que fique por cima do corpo e do coração quando fechado */
+            /* Z-index 3 para garantir que fique por cima do corpo e do coração */
             z-index: 3; 
         }
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
-            /* Z-index 0 para ir para trás quando aberto */
-            z-index: 0; 
+            z-index: 0; /* Vai para trás ao abrir */
         }
         .envelope-heart {
             position: absolute;
@@ -169,7 +163,7 @@
             transform: translate(-50%, 0);
             font-size: 2.5em;
             color: #d81b60;
-            /* Z-index 2: Deve ficar entre o corpo e a aba quando fechado */
+            /* Z-index 2: Fica entre o corpo e a aba */
             z-index: 2; 
             transition: transform 0.3s ease-in-out;
         }
@@ -184,11 +178,11 @@
             text-align: center;
             font-family: 'Pacifico', cursive;
             color: #d81b60;
-            font-size: 1.2em;
+            font-size: 1.5em; /* Aumentado para melhor visibilidade */
             z-index: 4;
         }
 
-        /* --- CONTEÚDO DA CARTA --- */
+        /* --- CONTEÚDO DA CARTA (Box Shadow Aprimorada) --- */
         #content {
             display: none;
             padding: 20px 0;
@@ -199,7 +193,7 @@
             background-color: #ffffff;
             padding: 30px 40px;
             border-radius: 15px;
-            /* Sombra aprimorada (externa + interna) */
+            /* Sombra aprimorada (externa + interna) para efeito de papel de qualidade */
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(0, 0, 0, 0.05); 
         }
         .fade-in-section {
