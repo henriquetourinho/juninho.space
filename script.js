@@ -38,7 +38,7 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (DURAÇÃO AJUSTADA PARA 30 SEGUNDOS) ---
+// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (DURAÇÃO: 30 SEGUNDOS) ---
 function iniciarChuvaDeCoracoes() {
     const heartShower = document.getElementById('heart-shower');
     // Cores rosa e vermelho que combinam com o design
@@ -65,10 +65,10 @@ function iniciarChuvaDeCoracoes() {
         }, 6000); 
     }
 
-    // Geração por 30 segundos (AJUSTE AQUI: 30000ms)
+    // Geração por 30 segundos (30000ms)
     const intervaloGeracao = setInterval(criarCoracao, 150); 
 
-    // Para a geração após 30 segundos (duração total da chuva - AJUSTE AQUI: 30000ms)
+    // Para a geração após 30 segundos (30000ms)
     setTimeout(() => {
         clearInterval(intervaloGeracao);
     }, 30000); 
@@ -89,7 +89,7 @@ function iniciarObservadorTexto() {
                     // Impede que a ação seja disparada mais de uma vez
                     observer.unobserve(entry.target); 
                     
-                    // 2 segundos de atraso antes de começar a chuva (AJUSTE AQUI: 2000ms)
+                    // 2 segundos de atraso antes de começar a chuva (2000ms)
                     setTimeout(() => {
                         iniciarChuvaDeCoracoes(); 
                     }, 2000); 
@@ -126,12 +126,37 @@ function verificarSenha() {
     }
 }
 
-// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN ---
+// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN (COM MEDIA SESSION) ---
 function abrirCarta() {
+    // Pega os metadados do elemento de áudio
+    const title = musica.getAttribute('data-name');
+    const artist = musica.getAttribute('data-artist');
+    const cover = musica.getAttribute('data-cover');
+
     // 1. INICIA A REPRODUÇÃO DA MÚSICA IMEDIATAMENTE NO CLIQUE DO ENVELOPE
     musica.volume = 0.5;
     musica.play().then(() => {
         controleMusica.textContent = '🔊'; 
+
+        // ATUALIZA METADADOS DE MÍDIA PARA BARRA DE NOTIFICAÇÃO
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: title,
+                artist: artist,
+                album: 'Carta Especial',
+                artwork: [
+                    // É bom fornecer vários tamanhos para compatibilidade
+                    { src: cover, sizes: '96x96', type: 'image/jpeg' },
+                    { src: cover, sizes: '128x128', type: 'image/jpeg' },
+                    { src: cover, sizes: '192x192', type: 'image/jpeg' },
+                    { src: cover, sizes: '256x256', type: 'image/jpeg' },
+                    { src: cover, sizes: '384x384', type: 'image/jpeg' },
+                    { src: cover, sizes: '512x512', type: 'image/jpeg' },
+                ]
+            });
+        }
+        // FIM: ATUALIZA METADADOS
+
     }).catch(error => {
         console.error("Erro ao tentar tocar a música (autoplay bloqueado):", error);
         controleMusica.textContent = '🔇';
