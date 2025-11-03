@@ -1,5 +1,5 @@
 // --- CONFIGURAÇÃO ---
-const SENHA_CORRETA = "amor"; // MUDE ESTA SENHA
+const SENHA_CORRETA = "2025"; // MUDEI A SENHA PARA '2025'
 const DATA_FINAL_CONTRATO = new Date("2025-11-15T00:00:00").getTime();
 
 // --- VARIÁVEIS DE ELEMENTOS ---
@@ -18,7 +18,7 @@ const elementosFadeIn = document.querySelectorAll('.fade-in-section');
 // --- FUNÇÃO 1: INICIAR O CONTADOR ---
 function iniciarContador() {
     const elementoContador = document.getElementById("countdown");
-    if (!elementoContador) return; // Sai se o elemento não existir
+    if (!elementoContador) return; 
 
     const intervaloContador = setInterval(function() {
         const agora = new Date().getTime();
@@ -41,7 +41,7 @@ function iniciarContador() {
 
 // --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE ---
 function verificarSenha() {
-    const senhaDigitada = inputSenha.value.trim().toLowerCase();
+    const senhaDigitada = inputSenha.value.trim(); // Não converte para minúsculo, pois é numérico/padrão
     
     if (senhaDigitada === SENHA_CORRETA) {
         // Sucesso: Esconde a senha, mostra o envelope
@@ -49,10 +49,9 @@ function verificarSenha() {
         telaEnvelope.style.display = 'flex';
         
         // Tenta tocar a música
-        musica.volume = 0.5; // Toca mais baixo
+        musica.volume = 0.5;
         musica.play().catch(error => {
-            controleMusica.textContent = '🔇'; // Se falhar, mostra mudo
-            console.log("Auto-play bloqueado.");
+            controleMusica.textContent = '🔇';
         });
 
     } else {
@@ -68,19 +67,19 @@ function verificarSenha() {
 function abrirCarta() {
     // 1. Abre visualmente o envelope
     envelope.classList.add('open');
-    telaEnvelope.style.pointerEvents = 'none'; // Desabilita o clique
+    telaEnvelope.style.pointerEvents = 'none';
     document.getElementById('envelope-text').textContent = 'Abrindo...';
 
     // 2. Transição após a animação do envelope (0.5s)
     setTimeout(() => {
-        telaEnvelope.style.display = 'none'; // Esconde a tela do envelope
-        conteudoCarta.style.display = 'block'; // Mostra a carta
-        rodapé.style.display = 'block'; // Mostra os créditos
-        iniciarContador(); // Inicia o contador
+        telaEnvelope.style.display = 'none';
+        conteudoCarta.style.display = 'block';
+        rodapé.style.display = 'block';
+        iniciarContador();
 
         // 3. Aplica o efeito Fade-In escalonado
         elementosFadeIn.forEach((el, index) => {
-            el.style.setProperty('--delay', `${index * 0.15}s`); // Atraso crescente
+            el.style.setProperty('--delay', `${index * 0.15}s`);
             el.classList.add('visible');
         });
         
@@ -118,3 +117,4 @@ controleMusica.addEventListener('click', toggleMusica);
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
 });
+                                 
