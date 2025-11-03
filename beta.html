@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Uma Mensagem Especial Para Você ❤️</title> 
+    
+    <meta name="description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
+    
+    <meta property="og:site_name" content="Juninho Space">
+    <meta property="og:title" content="O Presente Mais Inovador que Você Já Viu">
+    <meta property="og:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
+    
+    <meta property="og:image" content="https://juninho.space/capa.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <meta property="og:url" content="https://juninho.space">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="O Presente Mais Inovador que Você Já Viu">
+    <meta name="twitter:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
+    <meta name="twitter:image" content="https://juninho.space/capa.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos globais */
+        body {
+            background-color: #fdeef4; /* Fundo rosa claro */
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            opacity: 0; 
+            transition: opacity 0.5s;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* --- Estilo para Negrito (strong) em Cor Rosa --- */
+        strong {
+            color: #e91e63;
+        }
+
+        /* --- TELA DE SENHA E MODAL --- */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fdeef4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; 
+            transition: opacity 0.5s, visibility 0s 0.5s;
+        }
+        #password-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        #password-modal {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 300px;
+        }
+        #password-modal h2 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            margin: 0 0 10px 0;
+        }
+        #password-modal p {
+            font-size: 1em;
+            color: #555;
+        }
+        #password-input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ffccdd;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        #password-button {
+            background-color: #e91e63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        #password-button:hover {
+            background-color: #d81b60;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #error-message.visible {
+            opacity: 1;
+        }
+
+        /* --- TELA DE ENVELOPE (VISUAL CORRIGIDO) --- */
+        #envelope-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fdeef4;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            cursor: pointer;
+        }
+        .envelope-wrapper {
+            position: relative;
+            width: 250px;
+            height: 150px;
+        }
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1; 
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 125px solid transparent;
+            border-right: 125px solid transparent;
+            border-bottom: 75px solid #ff99aa;
+            border-radius: 5px;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3; 
+        }
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+        .envelope-heart {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 2.5em;
+            color: #d81b60;
+            z-index: 4; 
+            transition: transform 0.3s ease-in-out;
+        }
+        .envelope-wrapper:hover .envelope-heart {
+            transform: translate(-50%, -10px) scale(1.1);
+        }
+        #envelope-text {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Pacifico', cursive;
+            color: #d81b60;
+            font-size: 1.5em;
+            z-index: 4;
+        }
+
+        /* --- CONTEÚDO DA CARTA (Box Shadow Aprimorada) --- */
+        #content {
+            display: none;
+            padding: 20px 0;
+        }
+        .letter-container {
+            max-width: 700px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(0, 0, 0, 0.05); 
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay);
+        }
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilos dos Títulos */
+        h2 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            font-size: 2.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 1.5em;
+        }
+        hr {
+            border: 0; 
+            border-top: 1px dashed #ee9ca7; 
+            margin: 30px 0;
+        }
+        
+        /* Estilo especial para o contador */
+        #countdown {
+            font-weight: 700;
+            color: #d81b60;
+            background-color: #fdeef4;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        /* --- NOVO: CHUVA DE CORAÇÕES CSS --- */
+        #heart-shower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite interagir com a carta por baixo */
+            overflow: hidden;
+            z-index: 99; /* Fica por cima da carta, mas por baixo do modal de senha (1000) */
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: fall linear infinite;
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: currentColor; /* Usa a cor definida no JS */
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50%;
+            top: 0;
+        }
+
+        /* Animação de Queda */
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(-45deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(315deg);
+                opacity: 0;
+            }
+        }
+        /* --- FIM: CHUVA DE CORAÇÕES CSS --- */
+
+
+        /* --- CONTROLE DE MÚSICA E RODAPÉ --- */
+        #music-control {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background-color: #e91e63;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        /* Estilo do Rodapé */
+        #page-footer {
+            max-width: 700px;
+            margin: 50px auto 30px auto;
+            text-align: center;
+            font-size: 0.9em;
+            color: #a0a0a0;
+            padding: 10px 0;
+            border-top: 1px solid #ffccdd;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="heart-shower"></div>
+
+    <audio id="love-song" loop>
+        <source src="https://henriquetourinho.github.io/media/naoprecisamudar.mp3" type="audio/mpeg">
+        Seu navegador não suporta este áudio.
+    </audio>
+
+    <div id="password-overlay">
+        <div id="password-modal">
+            <h2>❤️</h2>
+            <h2>Presente Especial</h2>
+            <p>Por favor, insira a senha para ver sua mensagem.</p>
+            <input type="password" id="password-input" placeholder="****" inputmode="numeric">
+            <button id="password-button">Desbloquear</button>
+            <p id="error-message">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+
+    <div id="envelope-screen">
+        <div class="envelope-wrapper">
+            <div class="envelope-body"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-heart">❤️</div>
+            <div id="envelope-text">Clique para abrir</div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="letter-container">
+            
+            <h2 class="fade-in-section">💌 Introdução</h2>
+            <p class="fade-in-section">
+                Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. 
+                Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasião certa”. 
+                Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim.</strong> 
+                Esse presente é, acima de tudo, a forma como estou dizendo <strong>“eu te amo”</strong>.
+            </p>
+
+            <hr class="fade-in-section">
+
+            <h2 class="fade-in-section">❤️ O que eu sinto</h2>
+            <p class="fade-in-section">
+                Vida, agora faltam <span id="countdown">carregando...</span> pra acabar meu contrato — e não é sobre isso.
+                Na verdade, é sobre o improvável que você fez.
+                Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa… você fez coisas que, lá no começo, eu nem imaginava.
+                E mesmo assim, foi lá e fez.
+                Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.
+            </p>
+            <p class="fade-in-section">
+                Você me encanta em todos os momentos.
+                Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda.
+                Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.
+            </p>
+
+            <hr class="fade-in-section">
+
+            <h2 class="fade-in-section">📈 Nosso Crescimento</h2>
+            <p class="fade-in-section">
+                Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez.
+                Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar.
+                Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.
+            </p>
+            <p class="fade-in-section">
+                Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu.
+                Mas a gente já aprendeu a se respeitar.
+                E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir.
+                Com você, eu me vejo crescendo.
+            </p>
+
+            <hr class="fade-in-section">
+
+            <h2 class="fade-in-section">🗓️ Nossas Lembranças</h2>
+            <p class="fade-in-section">
+                Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury?
+                Pois é, ele me ajudou muito.
+                Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito.
+                Foi quase uma terapia, sabia?
+            </p>
+
+            <hr class="fade-in-section">
+
+            <h2 class="fade-in-section">💍 Nossos Planos</h2>
+            <p class="fade-in-section">
+                Eu tenho muitos planos pra nós dois — e sei que você também tem.
+                Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.
+            </p>
+
+            <hr class="fade-in-section">
+
+            <h2 class="fade-in-section">Para Terminar...</h2>
+            <p class="fade-in-section">
+                E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:
+            </p>
+            <p class="fade-in-section">
+                <strong>Eu te amo pra caralho.</strong><br>
+                <strong>Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.</strong><br>
+                <strong>Te amo, te quero — e você já faz parte de mim.</strong>
+            </p>
+        </div>
+    </div>
+
+    <div id="music-control">🔇</div>
+
+    <footer id="page-footer">
+        © 2025 Carlos Henrique Tourinho Santana
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
