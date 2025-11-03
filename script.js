@@ -1,5 +1,5 @@
 // --- CONFIGURAÇÃO ---
-const SENHA_CORRETA = "2025"; // MUDEI A SENHA PARA '2025'
+const SENHA_CORRETA = "2025"; // Senha numérica
 const DATA_FINAL_CONTRATO = new Date("2025-11-15T00:00:00").getTime();
 
 // --- VARIÁVEIS DE ELEMENTOS ---
@@ -14,6 +14,7 @@ const rodapé = document.getElementById('page-footer');
 const musica = document.getElementById('love-song');
 const controleMusica = document.getElementById('music-control');
 const elementosFadeIn = document.querySelectorAll('.fade-in-section');
+let musicaTocando = false; // Estado inicial da música
 
 // --- FUNÇÃO 1: INICIAR O CONTADOR ---
 function iniciarContador() {
@@ -39,19 +40,29 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE ---
+// --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE (Ajustado para Fade Mais Lento) ---
 function verificarSenha() {
-    const senhaDigitada = inputSenha.value.trim(); // Não converte para minúsculo, pois é numérico/padrão
+    const senhaDigitada = inputSenha.value.trim();
     
     if (senhaDigitada === SENHA_CORRETA) {
         // Sucesso: Esconde a senha, mostra o envelope
-        overlaySenha.classList.add('hidden');
-        telaEnvelope.style.display = 'flex';
         
-        // Tenta tocar a música
+        // Adiciona um pequeno atraso (0.3s) antes de iniciar a transição 
+        // para dar uma pausa antes de ir para o envelope.
+        setTimeout(() => {
+            overlaySenha.classList.add('hidden'); // Inicia o CSS fade-out (0.5s)
+            telaEnvelope.style.display = 'flex';
+        }, 300); 
+
+        // Tenta tocar a música assim que a tela de senha estiver sumindo
         musica.volume = 0.5;
-        musica.play().catch(error => {
-            controleMusica.textContent = '🔇';
+        musica.play().then(() => {
+            musicaTocando = true;
+            controleMusica.textContent = '🔊'; // Mostra ícone de som ligado
+        }).catch(error => {
+            musicaTocando = false;
+            controleMusica.textContent = '🔇'; // Mostra ícone de mudo se o autoplay falhar
+            console.log("Auto-play bloqueado.");
         });
 
     } else {
@@ -79,7 +90,8 @@ function abrirCarta() {
 
         // 3. Aplica o efeito Fade-In escalonado
         elementosFadeIn.forEach((el, index) => {
-            el.style.setProperty('--delay', `${index * 0.15}s`);
+            // Atraso de 0.3s entre cada parágrafo
+            el.style.setProperty('--delay', `${index * 0.3}s`); 
             el.classList.add('visible');
         });
         
@@ -113,7 +125,9 @@ telaEnvelope.addEventListener('click', abrirCarta);
 // 3. Controle de música
 controleMusica.addEventListener('click', toggleMusica);
 
-// 4. Efeito inicial de carregamento do Body
+// 4. Efeito inicial de carregamento do Body (PÁGINA INICIA VISÍVEL)
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
+    // Ícone inicial da música deve ser mudo, pois o play é tentado após o login
+    controleMusica.textContent = '🔇'; 
 });
