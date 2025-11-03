@@ -255,42 +255,53 @@
             border-radius: 6px;
         }
 
-        /* --- NOVO: CHUVA DE CORAÇÕES CSS --- */
+        /* --- NOVO: CHUVA DE CORAÇÕES CSS CORRIGIDO --- */
         #heart-shower {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Permite interagir com a carta por baixo */
+            pointer-events: none; 
             overflow: hidden;
-            z-index: 99; /* Fica por cima da carta, mas por baixo do modal de senha (1000) */
+            z-index: 99; 
         }
 
         .heart {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            transform: rotate(-45deg);
+            width: 25px; /* Aumentado para melhor visibilidade */
+            height: 25px;
+            /* Usaremos o próprio texto do coração (emoji) ou a forma */
+            font-size: 25px;
+            line-height: 1;
+            transform: translateY(-100px);
             opacity: 0;
             animation: fall linear infinite;
         }
 
-        .heart::before, .heart::after {
+        /* Corrigido para usar a forma de coração do CSS mais tradicional */
+        .heart-shape {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            transform: rotate(-45deg);
+            background: currentColor; /* Usa a cor definida no JS */
+        }
+        .heart-shape::before, .heart-shape::after {
             content: "";
             position: absolute;
             width: 100%;
             height: 100%;
-            background: currentColor; /* Usa a cor definida no JS */
+            background: currentColor;
             border-radius: 50%;
         }
 
-        .heart::before {
+        .heart-shape::before {
             top: -50%;
             left: 0;
         }
 
-        .heart::after {
+        .heart-shape::after {
             left: 50%;
             top: 0;
         }
@@ -298,15 +309,16 @@
         /* Animação de Queda */
         @keyframes fall {
             0% {
-                transform: translateY(-100px) rotate(-45deg);
+                transform: translateY(-100px) rotate(0deg);
                 opacity: 0.8;
             }
             100% {
-                transform: translateY(100vh) rotate(315deg);
+                transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
             }
         }
-        /* --- FIM: CHUVA DE CORAÇÕES CSS --- */
+        /* --- FIM: CHUVA DE CORAÇÕES CSS CORRIGIDO --- */
+
 
 
         /* --- CONTROLE DE MÚSICA E RODAPÉ --- */
