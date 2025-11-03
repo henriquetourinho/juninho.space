@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Carta Para Você ❤️</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos globais */
+        body {
+            background-color: #fdeef4; /* Fundo rosa claro */
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Estilos da Tela de Login (NOVO) --- */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fdeef4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100; /* Garante que fique acima de tudo */
+        }
+        .login-box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-box h1 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        .login-box input[type="password"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ffccdd;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .login-box button {
+            background-color: #e91e63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .login-box button:hover {
+            background-color: #d81b60;
+        }
+        #login-message {
+            color: red;
+            margin-top: 10px;
+            height: 20px; /* Mantém o espaço para a mensagem */
+        }
+
+        /* --- Estilos da Carta --- */
+        #carta-content {
+            display: none; /* Escondida por padrão, será mostrada após o login */
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        h3 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            font-size: 2.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fce4ec;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+        }
+        /* Estilo especial para o contador */
+        #contador-contrato {
+            font-weight: 700;
+            color: #d81b60;
+            background-color: #fdeef4;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        /* Estilo para o player de música (NOVO) */
+        .player-musica {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .player-musica:hover {
+            opacity: 1;
+        }
+        /* --- Estilo do Rodapé (NOVO) --- */
+#page-footer {
+    max-width: 700px;
+    margin: 50px auto 30px auto; /* 50px de margem superior para separar da carta */
+    text-align: center;
+    font-size: 0.9em;
+    color: #a0a0a0; /* Cor cinza discreta */
+    padding: 10px 0;
+    border-top: 1px solid #ffccdd; /* Linha sutil rosa clara acima dos créditos */
+}
+
+/* Opcional: Garante que o rodapé apareça após o login */
+#content:not([style*="display: block"]) + #page-footer {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h1>🔓 Segredo</h1>
+            <p>Para ver a mensagem, digite a senha:</p>
+            <input type="password" id="senha-input" placeholder="Digite a senha aqui">
+            <div id="login-message"></div>
+            <button onclick="verificarSenha()">Entrar</button>
+        </div>
+    </div>
+
+    <div id="carta-content">
+        <main class="container">
+
+            <h3>💌 Introdução</h3>
+            <p>Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasição certa”. Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim</strong>. Esse presente é, acima de tudo, a forma como estou dizendo “eu te amo”.</p>
+
+            <h3>❤️ O que eu sinto</h3>
+            <p>Vida, agora faltam <span id="contador-contrato">carregando...</span> pra acabar meu contrato — e não é sobre isso. Na verdade, é sobre o improvável que você fez. Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa… você fez coisas que, lá no começo, eu nem imaginava. E mesmo assim, foi lá e fez. Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.</p>
+            <p>Você me encanta em todos os momentos. Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda. Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.</p>
+
+            <h3>📈 Nosso Crescimento</h3>
+            <p>Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez. Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar. Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.</p>
+            <p>Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu. Mas a gente já aprendeu a se respeitar. E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir. Com você, eu me vejo crescendo.</p>
+
+            <h3>🗓️ Nossas Lembranças</h3>
+            <p>Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury? Pois é, ele me ajudou muito. Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito. Foi quase uma terapia, sabia?</p>
+
+            <h3>💍 Nossos Planos</h3>
+            <p>Eu tenho muitos planos pra nós dois — e sei que você também tem. Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.</p>
+
+            <h3>Para Terminar...</h3>
+            <p>E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:</p>
+            <p>Eu te amo pra caralho.<br>
+            Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.<br>
+            Te amo, te quero — e você já faz parte de mim.</p>
+
+        </main>
+
+        <div class="player-musica">
+            <audio id="musica-fundo" controls loop>
+                <source src="sua-musica.mp3" type="audio/mpeg">
+                Seu navegador não suporta o player de áudio.
+            </audio>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="letter-container">
+            </div>
+    </div>
+
+    <div id="music-control">🔊</div>
+    
+    <footer id="page-footer">
+        © 2025 Carlos Henrique Tourinho Santana
+    </footer>
+    </body>
