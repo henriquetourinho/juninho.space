@@ -1,71 +1,120 @@
-// A senha que você vai usar para desbloquear a carta
-// MUDE 'amor' PELA SENHA QUE VOCÊ DESEJA
-const SENHA_CORRETA = "amor"; 
+// --- CONFIGURAÇÃO ---
+const SENHA_CORRETA = "amor"; // MUDE ESTA SENHA
+const DATA_FINAL_CONTRATO = new Date("2025-11-15T00:00:00").getTime();
 
-// --- FUNÇÃO DE LOGIN ---
-function verificarSenha() {
-    const input = document.getElementById('senha-input');
-    const senhaDigitada = input.value.trim().toLowerCase();
-    const mensagemErro = document.getElementById('login-message');
-    
-    // Verifica a senha
-    if (senhaDigitada === SENHA_CORRETA) {
-        // Login bem-sucedido:
-        document.getElementById('login-screen').style.display = 'none'; // Esconde a tela de login
-        document.getElementById('carta-content').style.display = 'block'; // Mostra a carta
-        
-        // Tenta tocar a música automaticamente (pode ser bloqueado pelo navegador)
-        const audio = document.getElementById('musica-fundo');
-        if (audio) {
-            audio.play().catch(error => {
-                console.log("Auto-play bloqueado. O usuário precisa interagir com o player.");
-            });
-        }
-        
-        // Inicia o contador apenas após o login
-        iniciarContador();
-        
-    } else {
-        // Login falhou:
-        mensagemErro.textContent = "Senha incorreta. Tente novamente.";
-        input.value = ''; // Limpa o campo
-        input.focus(); // Coloca o cursor no campo
-    }
-}
+// --- VARIÁVEIS DE ELEMENTOS ---
+const overlaySenha = document.getElementById('password-overlay');
+const inputSenha = document.getElementById('password-input');
+const btnSenha = document.getElementById('password-button');
+const msgErro = document.getElementById('error-message');
+const telaEnvelope = document.getElementById('envelope-screen');
+const envelope = document.querySelector('.envelope-wrapper');
+const conteudoCarta = document.getElementById('content');
+const rodapé = document.getElementById('page-footer');
+const musica = document.getElementById('love-song');
+const controleMusica = document.getElementById('music-control');
+const elementosFadeIn = document.querySelectorAll('.fade-in-section');
 
-// --- FUNÇÃO DO CONTADOR REGRESSIVO ---
+// --- FUNÇÃO 1: INICIAR O CONTADOR ---
 function iniciarContador() {
-    // Data final para 15 de Novembro de 2025, à meia-noite
-    const dataFinalContrato = new Date("2025-11-15T00:00:00").getTime();
+    const elementoContador = document.getElementById("countdown");
+    if (!elementoContador) return; // Sai se o elemento não existir
 
-    // Atualiza o contador a cada 1 segundo
     const intervaloContador = setInterval(function() {
-
         const agora = new Date().getTime();
-        const distancia = dataFinalContrato - agora;
+        const distancia = DATA_FINAL_CONTRATO - agora;
         
-        // Cálculos de tempo para dias, horas, minutos e segundos
+        // Cálculos de tempo
         const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
         const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
         const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
         
-        const elementoContador = document.getElementById("contador-contrato");
-
-        if (elementoContador) {
-          
-            if (distancia > 0) {
-                // Exibe o resultado formatado
-                elementoContador.innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
-            } else {
-                // Se o contador acabar
-                clearInterval(intervaloContador);
-                elementoContador.innerHTML = "CONTRATO FINALIZADO!";
-            }
+        if (distancia > 0) {
+            elementoContador.innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
+        } else {
+            clearInterval(intervaloContador);
+            elementoContador.innerHTML = "CONTRATO FINALIZADO!";
         }
-
-    }, 1000); // 1000ms = 1 segundo
+    }, 1000);
 }
 
-// O contador só será iniciado após o login bem-sucedido (dentro da função verificarSenha)
-// O que significa que nada acontece até o usuário digitar a senha certa.
+// --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE ---
+function verificarSenha() {
+    const senhaDigitada = inputSenha.value.trim().toLowerCase();
+    
+    if (senhaDigitada === SENHA_CORRETA) {
+        // Sucesso: Esconde a senha, mostra o envelope
+        overlaySenha.classList.add('hidden');
+        telaEnvelope.style.display = 'flex';
+        
+        // Tenta tocar a música
+        musica.volume = 0.5; // Toca mais baixo
+        musica.play().catch(error => {
+            controleMusica.textContent = '🔇'; // Se falhar, mostra mudo
+            console.log("Auto-play bloqueado.");
+        });
+
+    } else {
+        // Erro: Mostra a mensagem e limpa o campo
+        msgErro.classList.add('visible');
+        inputSenha.value = '';
+        inputSenha.focus();
+        setTimeout(() => msgErro.classList.remove('visible'), 2000);
+    }
+}
+
+// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN ---
+function abrirCarta() {
+    // 1. Abre visualmente o envelope
+    envelope.classList.add('open');
+    telaEnvelope.style.pointerEvents = 'none'; // Desabilita o clique
+    document.getElementById('envelope-text').textContent = 'Abrindo...';
+
+    // 2. Transição após a animação do envelope (0.5s)
+    setTimeout(() => {
+        telaEnvelope.style.display = 'none'; // Esconde a tela do envelope
+        conteudoCarta.style.display = 'block'; // Mostra a carta
+        rodapé.style.display = 'block'; // Mostra os créditos
+        iniciarContador(); // Inicia o contador
+
+        // 3. Aplica o efeito Fade-In escalonado
+        elementosFadeIn.forEach((el, index) => {
+            el.style.setProperty('--delay', `${index * 0.15}s`); // Atraso crescente
+            el.classList.add('visible');
+        });
+        
+    }, 800); 
+}
+
+// --- FUNÇÃO 4: TOGGLE DE MÚSICA ---
+function toggleMusica() {
+    if (musica.paused) {
+        musica.play();
+        controleMusica.textContent = '🔊';
+    } else {
+        musica.pause();
+        controleMusica.textContent = '🔇';
+    }
+}
+
+// --- ESCUTADORES DE EVENTOS (LISTENERS) ---
+
+// 1. Entrar com o botão de senha ou tecla Enter
+btnSenha.addEventListener('click', verificarSenha);
+inputSenha.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        verificarSenha();
+    }
+});
+
+// 2. Abrir o envelope
+telaEnvelope.addEventListener('click', abrirCarta);
+
+// 3. Controle de música
+controleMusica.addEventListener('click', toggleMusica);
+
+// 4. Efeito inicial de carregamento do Body
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('loaded');
+});
