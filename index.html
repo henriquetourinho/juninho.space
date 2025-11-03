@@ -6,7 +6,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     <title>Uma Mensagem Para Você</title>
     <style>
-        /* Importa uma fonte romântica */
+         /* Importa uma fonte romântica */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
 
         /* Estilos Globais */
@@ -96,7 +96,7 @@
             margin-top: 15px;
             display: none; /* Escondido por padrão */
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
@@ -108,7 +108,7 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        
+
         /* --- Estilo do Envelope --- */
         #envelope-screen {
             position: fixed;
@@ -123,7 +123,7 @@
             z-index: 999;
             cursor: pointer;
         }
-        
+
         .envelope-wrapper {
             position: relative;
             width: 300px;
@@ -133,7 +133,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             transition: all 0.5s ease-out;
         }
-        
+
         .envelope-wrapper:hover {
             transform: scale(1.05);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
@@ -152,7 +152,7 @@
             transition: transform 0.7s ease-out;
             clip-path: polygon(0 0, 100% 0, 100% 0, 50% 100%, 0 0);
         }
-        
+
         .envelope-body {
             position: absolute;
             top: 100px;
@@ -163,7 +163,7 @@
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
         }
-        
+
         .envelope-heart {
             position: absolute;
             top: 75px;
@@ -174,15 +174,15 @@
             opacity: 0.8;
             transition: opacity 0.3s;
         }
-        
+
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
         }
-        
+
         .envelope-wrapper.open .envelope-heart {
             opacity: 0;
         }
-        
+
         #envelope-text {
             position: absolute;
             bottom: -50px;
@@ -203,13 +203,13 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        
+
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1.2s ease-out, transform 1.0s ease-out;
         }
-        
+
         .fade-in-section.visible {
             opacity: 1;
             transform: translateY(0);
@@ -256,7 +256,7 @@
             color: #c2185b;
             font-weight: 600;
         }
-        
+
         #countdown {
             color: #d6336c;
             font-weight: 600;
@@ -298,7 +298,7 @@
             .envelope-body { top: 83px; height: 83px; }
             .envelope-flap { height: 83px; }
             .envelope-heart { top: 60px; font-size: 2rem; }
-            
+
             .letter-container {
                 margin: 20px auto;
                 padding: 20px;
@@ -310,8 +310,8 @@
         }
 
     </style>
-</head>
-<body>
+    
+    <body>
 
     <audio id="love-song" loop>
         <source src="https://henriquetourinho.github.io/media/naoprecisamudar.mp3" type="audio/mpeg">
@@ -328,7 +328,7 @@
             <p id="error-message">Senha incorreta. Tente novamente.</p>
         </div>
     </div>
-    
+
     <div id="envelope-screen">
         <div class="envelope-wrapper">
             <div class="envelope-flap"></div>
@@ -340,17 +340,18 @@
 
     <div id="content">
         <div class="letter-container">
-            <h2 class="fade-in-section">💌 Introdução:</h2>
+            
+            <h2 class="fade-in-section">💌 Introdução</h2>
             <p class="fade-in-section">
-                Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade.
-                Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasião certa”.
-                Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim.</strong>
+                Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. 
+                Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasião certa”. 
+                Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim.</strong> 
                 Esse presente é, acima de tudo, a forma como estou dizendo <strong>“eu te amo”</strong>.
             </p>
 
             <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
 
-            <h2 class="fade-in-section">❤️ Mensagem:</h2>
+            <h2 class="fade-in-section">❤️ O que eu sinto</h2>
             <p class="fade-in-section">
                 Vida, agora faltam <span id="countdown"></span> pra acabar meu contrato — e não é sobre isso.
                 Na verdade, é sobre o improvável que você fez.
@@ -363,6 +364,10 @@
                 Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda.
                 Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.
             </p>
+
+            <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
+
+            <h2 class="fade-in-section">📈 Nosso Crescimento</h2>
             <p class="fade-in-section">
                 Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez.
                 Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar.
@@ -373,16 +378,29 @@
                 Mas a gente já aprendeu a se respeitar.
                 E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir.
                 Com você, eu me vejo crescendo.
-            </p> <p class="fade-in-section">
+            </p>
+
+            <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
+
+            <h2 class="fade-in-section">🗓️ Nossas Lembranças</h2>
+            <p class="fade-in-section">
                 Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury?
                 Pois é, ele me ajudou muito.
                 Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito.
                 Foi quase uma terapia, sabia?
             </p>
+
+            <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
+
+            <h2 class="fade-in-section">💍 Nossos Planos</h2>
             <p class="fade-in-section">
                 Eu tenho muitos planos pra nós dois — e sei que você também tem.
                 Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.
             </p>
+
+            <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
+
+            <h2 class="fade-in-section">Para Terminar...</h2>
             <p class="fade-in-section">
                 E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:
             </p>
@@ -396,7 +414,7 @@
 
     <div id="music-control">🔊</div>
 
-
+    </body>
     <script>
         // === LÓGICA DO CONTADOR REGRESSIVO ===
         const targetDate = new Date(2025, 10, 15, 0, 0, 0).getTime();
@@ -405,16 +423,16 @@
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-            
+
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
+
             const fHours = hours < 10 ? "0" + hours : hours;
             const fMinutes = minutes < 10 ? "0" + minutes : minutes;
             const fSeconds = seconds < 10 ? "0" + seconds : seconds;
-            
+
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 countdownElement.innerHTML = "finalizado!";
@@ -462,7 +480,7 @@
                         }
                     ]
                 });
-                
+
                 navigator.mediaSession.setActionHandler('play', () => toggleMusic());
                 navigator.mediaSession.setActionHandler('pause', () => toggleMusic());
             }
@@ -488,7 +506,7 @@
         function openLetter() {
             vibrateFeedback(); 
             envelopeWrapper.classList.add('open');
-            
+
             audioPlayer.play().catch(e => console.warn("Autoplay falhou:", e));
             setupMediaSession(); 
             musicControl.style.display = 'flex'; 
@@ -501,7 +519,7 @@
                 startGuidedReading(); // Inicia a leitura guiada
             }, 1500);
         }
-        
+
         // --- FUNÇÃO 3: Leitura Guiada (COM ROLAGEM AUTOMÁTICA) ---
         function startGuidedReading() {
             const sections = document.querySelectorAll('.fade-in-section');
@@ -512,7 +530,7 @@
                 setTimeout(() => {
                     // 1. Torna a seção visível
                     section.classList.add('visible');
-                    
+
                     // 2. Rola até a seção (exceto a primeira)
                     if (isFirstElement) {
                         isFirstElement = false;
@@ -524,7 +542,7 @@
                         });
                     }
                 }, delay);
-                
+
                 // 3. Define o delay para o PRÓXIMO item
                 if (section.tagName === 'P') {
                     delay += 3500; // 3.5s de tempo de leitura para parágrafos
