@@ -38,7 +38,7 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (DURAÇÃO AJUSTADA PARA 2 SEGUNDOS) ---
+// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (DURAÇÃO AJUSTADA PARA 30 SEGUNDOS) ---
 function iniciarChuvaDeCoracoes() {
     const heartShower = document.getElementById('heart-shower');
     // Cores rosa e vermelho que combinam com o design
@@ -52,7 +52,7 @@ function iniciarChuvaDeCoracoes() {
         coracaoContainer.style.animationDelay = `${Math.random() * 0.5}s`; 
         coracaoContainer.style.color = heartColors[Math.floor(Math.random() * heartColors.length)]; 
 
-        // CRIAÇÃO DA FORMA DE CORAÇÃO USANDO O CSS CORRIGIDO
+        // CRIAÇÃO DA FORMA DE CORAÇÃO USANDO O CSS
         const heartShape = document.createElement('div');
         heartShape.className = 'heart-shape';
         coracaoContainer.appendChild(heartShape);
@@ -65,13 +65,13 @@ function iniciarChuvaDeCoracoes() {
         }, 6000); 
     }
 
-    // Geração por 2 segundos (AJUSTE AQUI)
+    // Geração por 30 segundos (AJUSTE AQUI: 30000ms)
     const intervaloGeracao = setInterval(criarCoracao, 150); 
 
-    // Para a geração após 2 segundos (duração total da chuva - AJUSTE AQUI)
+    // Para a geração após 30 segundos (duração total da chuva - AJUSTE AQUI: 30000ms)
     setTimeout(() => {
         clearInterval(intervaloGeracao);
-    }, 2000); 
+    }, 30000); 
 }
 
 
@@ -89,10 +89,10 @@ function iniciarObservadorTexto() {
                     // Impede que a ação seja disparada mais de uma vez
                     observer.unobserve(entry.target); 
                     
-                    // 7 segundos de atraso antes de começar a chuva (7000ms)
+                    // 2 segundos de atraso antes de começar a chuva (AJUSTE AQUI: 2000ms)
                     setTimeout(() => {
                         iniciarChuvaDeCoracoes(); 
-                    }, 7000); 
+                    }, 2000); 
                 }
 
                 // Para o fade-in de outros elementos logo após aparecerem
