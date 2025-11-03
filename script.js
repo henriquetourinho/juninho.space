@@ -40,7 +40,31 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE (Ajustado para Fade Mais Lento) ---
+// --- NOVO: FUNÇÃO PARA REVELAR O TEXTO AO ROLAR (SCROLL-REVEAL) ---
+function iniciarObservadorTexto() {
+    // Cria um novo observador
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            // Se o elemento estiver visível (ou pelo menos 10% visível)
+            if (entry.isIntersecting) {
+                // Revela o elemento
+                entry.target.classList.add('visible');
+                // Para de observar este elemento para não executarmos mais a animação
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, {
+        // Opções: inicia a revelação quando 10% do elemento estiver visível
+        threshold: 0.1 
+    });
+
+    // Observa todos os elementos que têm a classe 'fade-in-section'
+    elementosFadeIn.forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// --- FUNÇÃO 2: LOGAR E MOSTRAR ENVELOPE ---
 function verificarSenha() {
     const senhaDigitada = inputSenha.value.trim();
     
@@ -48,20 +72,19 @@ function verificarSenha() {
         // Sucesso: Esconde a senha, mostra o envelope
         
         // Adiciona um pequeno atraso (0.3s) antes de iniciar a transição 
-        // para dar uma pausa antes de ir para o envelope.
         setTimeout(() => {
             overlaySenha.classList.add('hidden'); // Inicia o CSS fade-out (0.5s)
             telaEnvelope.style.display = 'flex';
         }, 300); 
 
-        // Tenta tocar a música assim que a tela de senha estiver sumindo
+        // Tenta tocar a música
         musica.volume = 0.5;
         musica.play().then(() => {
             musicaTocando = true;
-            controleMusica.textContent = '🔊'; // Mostra ícone de som ligado
+            controleMusica.textContent = '🔊'; // Som ligado
         }).catch(error => {
             musicaTocando = false;
-            controleMusica.textContent = '🔇'; // Mostra ícone de mudo se o autoplay falhar
+            controleMusica.textContent = '🔇'; // Mudo se autoplay falhar
             console.log("Auto-play bloqueado.");
         });
 
@@ -87,13 +110,9 @@ function abrirCarta() {
         conteudoCarta.style.display = 'block';
         rodapé.style.display = 'block';
         iniciarContador();
-
-        // 3. Aplica o efeito Fade-In escalonado
-        elementosFadeIn.forEach((el, index) => {
-            // Atraso de 0.3s entre cada parágrafo
-            el.style.setProperty('--delay', `${index * 0.3}s`); 
-            el.classList.add('visible');
-        });
+        
+        // 3. NOVO: Inicia o observador para revelar o texto ao rolar!
+        iniciarObservadorTexto();
         
     }, 800); 
 }
