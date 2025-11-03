@@ -14,7 +14,7 @@ const rodapé = document.getElementById('page-footer');
 const musica = document.getElementById('love-song');
 const controleMusica = document.getElementById('music-control');
 const elementosFadeIn = document.querySelectorAll('.fade-in-section');
-let musicaTocando = false; // Estado inicial da música
+let musicaTocando = false; 
 
 // --- FUNÇÃO 1: INICIAR O CONTADOR ---
 function iniciarContador() {
@@ -40,7 +40,7 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- NOVO: FUNÇÃO PARA REVELAR O TEXTO AO ROLAR (SCROLL-REVEAL) ---
+// --- FUNÇÃO PARA REVELAR O TEXTO AO ROLAR (SCROLL-REVEAL) ---
 function iniciarObservadorTexto() {
     // Cria um novo observador
     const observer = new IntersectionObserver((entries, observer) => {
@@ -77,16 +77,7 @@ function verificarSenha() {
             telaEnvelope.style.display = 'flex';
         }, 300); 
 
-        // Tenta tocar a música
-        musica.volume = 0.5;
-        musica.play().then(() => {
-            musicaTocando = true;
-            controleMusica.textContent = '🔊'; // Som ligado
-        }).catch(error => {
-            musicaTocando = false;
-            controleMusica.textContent = '🔇'; // Mudo se autoplay falhar
-            console.log("Auto-play bloqueado.");
-        });
+        // O áudio foi movido para abrirCarta() para garantir que toque após o clique do usuário.
 
     } else {
         // Erro: Mostra a mensagem e limpa o campo
@@ -97,21 +88,30 @@ function verificarSenha() {
     }
 }
 
-// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN ---
+// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN (CORRIGIDA: ÁUDIO NO INÍCIO) ---
 function abrirCarta() {
-    // 1. Abre visualmente o envelope
+    // 1. INICIA A REPRODUÇÃO DA MÚSICA IMEDIATAMENTE NO CLIQUE DO ENVELOPE
+    musica.volume = 0.5;
+    musica.play().then(() => {
+        controleMusica.textContent = '🔊'; 
+    }).catch(error => {
+        console.error("Erro ao tentar tocar a música (autoplay bloqueado):", error);
+        controleMusica.textContent = '🔇';
+    });
+
+    // 2. Abre visualmente o envelope
     envelope.classList.add('open');
     telaEnvelope.style.pointerEvents = 'none';
     document.getElementById('envelope-text').textContent = 'Abrindo...';
 
-    // 2. Transição após a animação do envelope (0.5s)
+    // 3. Transição após a animação do envelope (0.5s)
     setTimeout(() => {
         telaEnvelope.style.display = 'none';
         conteudoCarta.style.display = 'block';
         rodapé.style.display = 'block';
         iniciarContador();
         
-        // 3. NOVO: Inicia o observador para revelar o texto ao rolar!
+        // 4. Inicia o observador para revelar o texto ao rolar!
         iniciarObservadorTexto();
         
     }, 800); 
@@ -147,6 +147,6 @@ controleMusica.addEventListener('click', toggleMusica);
 // 4. Efeito inicial de carregamento do Body (PÁGINA INICIA VISÍVEL)
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
-    // Ícone inicial da música deve ser mudo, pois o play é tentado após o login
+    // Ícone inicial da música deve ser mudo
     controleMusica.textContent = '🔇'; 
 });
