@@ -14,7 +14,6 @@ const rodapé = document.getElementById('page-footer');
 const musica = document.getElementById('love-song');
 const controleMusica = document.getElementById('music-control');
 const elementosFadeIn = document.querySelectorAll('.fade-in-section');
-let musicaTocando = false; 
 
 // --- FUNÇÃO 1: INICIAR O CONTADOR ---
 function iniciarContador() {
@@ -25,7 +24,6 @@ function iniciarContador() {
         const agora = new Date().getTime();
         const distancia = DATA_FINAL_CONTRATO - agora;
         
-        // Cálculos de tempo
         const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
         const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
@@ -40,25 +38,65 @@ function iniciarContador() {
     }, 1000);
 }
 
+// --- NOVO: FUNÇÃO PARA CHUVA DE CORAÇÕES ---
+function iniciarChuvaDeCoracoes() {
+    const heartShower = document.getElementById('heart-shower');
+    // Cores rosa e vermelho que combinam com o design
+    const heartColors = ['#E91E63', '#FF4081', '#FF80AB', '#D81B60', '#FF99AA']; 
+
+    function criarCoracao() {
+        const coracao = document.createElement('div');
+        coracao.className = 'heart';
+        coracao.style.left = `${Math.random() * 100}vw`; // Posição horizontal aleatória
+        coracao.style.animationDuration = `${Math.random() * 2 + 4}s`; // Duração aleatória (4s a 6s)
+        coracao.style.animationDelay = `${Math.random() * 0.5}s`; // Pequeno atraso aleatório
+        coracao.style.color = heartColors[Math.floor(Math.random() * heartColors.length)]; // Cor aleatória
+        heartShower.appendChild(coracao);
+
+        // Remove o coração após a animação (tempo máximo de 6s) para limpar o DOM
+        setTimeout(() => {
+            coracao.remove();
+        }, 6000); 
+    }
+
+    // Geração por 5 segundos
+    const intervaloGeracao = setInterval(criarCoracao, 150); // Cria um coração a cada 150ms
+
+    // Para a geração após 5 segundos (duração total da chuva)
+    setTimeout(() => {
+        clearInterval(intervaloGeracao);
+    }, 5000); 
+}
+
+
 // --- FUNÇÃO PARA REVELAR O TEXTO AO ROLAR (SCROLL-REVEAL) ---
 function iniciarObservadorTexto() {
-    // Cria um novo observador
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-            // Se o elemento estiver visível (ou pelo menos 10% visível)
             if (entry.isIntersecting) {
-                // Revela o elemento
                 entry.target.classList.add('visible');
-                // Para de observar este elemento para não executarmos mais a animação
-                observer.unobserve(entry.target); 
+                
+                // NOVO: Verifica se o elemento é o subtítulo "Para Terminar..."
+                const textoSubtitulo = entry.target.textContent.trim();
+                
+                if (textoSubtitulo === 'Para Terminar...') {
+                    // Impede que a ação seja disparada mais de uma vez ao rolar para cima e para baixo
+                    observer.unobserve(entry.target); 
+                    
+                    // 7 segundos de atraso antes de começar a chuva
+                    setTimeout(() => {
+                        iniciarChuvaDeCoracoes(); 
+                    }, 7000); 
+                }
+
+                // Para o fade-in de outros elementos logo após aparecerem
+                observer.unobserve(entry.target);
             }
         });
     }, {
-        // Opções: inicia a revelação quando 10% do elemento estiver visível
         threshold: 0.1 
     });
 
-    // Observa todos os elementos que têm a classe 'fade-in-section'
     elementosFadeIn.forEach(el => {
         observer.observe(el);
     });
@@ -69,18 +107,12 @@ function verificarSenha() {
     const senhaDigitada = inputSenha.value.trim();
     
     if (senhaDigitada === SENHA_CORRETA) {
-        // Sucesso: Esconde a senha, mostra o envelope
-        
-        // Adiciona um pequeno atraso (0.3s) antes de iniciar a transição 
         setTimeout(() => {
-            overlaySenha.classList.add('hidden'); // Inicia o CSS fade-out (0.5s)
+            overlaySenha.classList.add('hidden');
             telaEnvelope.style.display = 'flex';
         }, 300); 
 
-        // O áudio foi movido para abrirCarta() para garantir que toque após o clique do usuário.
-
     } else {
-        // Erro: Mostra a mensagem e limpa o campo
         msgErro.classList.add('visible');
         inputSenha.value = '';
         inputSenha.focus();
@@ -88,7 +120,7 @@ function verificarSenha() {
     }
 }
 
-// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN (CORRIGIDA: ÁUDIO NO INÍCIO) ---
+// --- FUNÇÃO 3: ABRIR CARTA E FADE-IN ---
 function abrirCarta() {
     // 1. INICIA A REPRODUÇÃO DA MÚSICA IMEDIATAMENTE NO CLIQUE DO ENVELOPE
     musica.volume = 0.5;
@@ -129,8 +161,6 @@ function toggleMusica() {
 }
 
 // --- ESCUTADORES DE EVENTOS (LISTENERS) ---
-
-// 1. Entrar com o botão de senha ou tecla Enter
 btnSenha.addEventListener('click', verificarSenha);
 inputSenha.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
@@ -138,15 +168,10 @@ inputSenha.addEventListener('keydown', function(event) {
     }
 });
 
-// 2. Abrir o envelope
 telaEnvelope.addEventListener('click', abrirCarta);
-
-// 3. Controle de música
 controleMusica.addEventListener('click', toggleMusica);
 
-// 4. Efeito inicial de carregamento do Body (PÁGINA INICIA VISÍVEL)
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
-    // Ícone inicial da música deve ser mudo
     controleMusica.textContent = '🔇'; 
 });
