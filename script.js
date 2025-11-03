@@ -38,7 +38,7 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (CORRIGIDA) ---
+// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (DURAÇÃO AJUSTADA PARA 2 SEGUNDOS) ---
 function iniciarChuvaDeCoracoes() {
     const heartShower = document.getElementById('heart-shower');
     // Cores rosa e vermelho que combinam com o design
@@ -65,13 +65,13 @@ function iniciarChuvaDeCoracoes() {
         }, 6000); 
     }
 
-    // Geração por 5 segundos
+    // Geração por 2 segundos (AJUSTE AQUI)
     const intervaloGeracao = setInterval(criarCoracao, 150); 
 
-    // Para a geração após 5 segundos (duração total da chuva)
+    // Para a geração após 2 segundos (duração total da chuva - AJUSTE AQUI)
     setTimeout(() => {
         clearInterval(intervaloGeracao);
-    }, 5000); 
+    }, 2000); 
 }
 
 
@@ -89,7 +89,7 @@ function iniciarObservadorTexto() {
                     // Impede que a ação seja disparada mais de uma vez
                     observer.unobserve(entry.target); 
                     
-                    // 7 segundos de atraso antes de começar a chuva
+                    // 7 segundos de atraso antes de começar a chuva (7000ms)
                     setTimeout(() => {
                         iniciarChuvaDeCoracoes(); 
                     }, 7000); 
