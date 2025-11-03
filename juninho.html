@@ -1,430 +1,175 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presente Especial</title>
+    <title>Uma Carta Para Você ❤️</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --cor-fundo: #fdeef1;
-            --cor-principal: #d94670;
-            --cor-texto: #5c3a47;
-            --cor-branco: #ffffff;
-            --fonte-titulo: 'Dancing Script', cursive;
-            --fonte-corpo: 'Lato', sans-serif;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-        * {
+    <style>
+        /* Estilos globais */
+        body {
+            background-color: #fdeef4; /* Fundo rosa claro */
+            font-family: 'Roboto', sans-serif;
+            color: #333;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
-        body {
-            font-family: var(--fonte-corpo);
-            background-color: var(--cor-fundo);
-            color: var(--cor-texto);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            background-color: var(--cor-branco);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* --- Tela de Login --- */
+        /* --- Estilos da Tela de Login (NOVO) --- */
         #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fdeef4;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            padding: 20px;
-            background-color: var(--cor-branco);
-            transition: opacity 0.5s ease-out;
+            z-index: 100; /* Garante que fique acima de tudo */
         }
-
-        #login-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            position: absolute;
-        }
-
-        .heart-icon {
-            font-size: 50px;
-            color: var(--cor-principal);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        #login-screen h1 {
-            font-family: var(--fonte-titulo);
-            font-size: 3rem;
-            color: var(--cor-principal);
-            margin-top: 10px;
-        }
-
-        #login-screen p {
-            font-size: 1rem;
-            margin-bottom: 25px;
-        }
-
-        #password-input {
-            width: 80%;
-            padding: 15px;
-            font-size: 1.2rem;
+        .login-box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border: 2px solid var(--cor-fundo);
-            border-radius: 10px;
-            letter-spacing: 5px;
-            margin-bottom: 25px;
         }
-
-        #password-input:focus {
-            outline: none;
-            border-color: var(--cor-principal);
-        }
-
-        #login-button {
-            width: 80%;
-            padding: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            background-color: var(--cor-principal);
-            color: var(--cor-branco);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        #login-button:hover {
-            background-color: #b3385a;
-        }
-        
-        #error-message {
-            color: red;
-            margin-top: 15px;
-            display: none;
-        }
-
-        /* --- Tela do Envelope --- */
-        #envelope-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 20px;
-            background-color: var(--cor-fundo);
-            cursor: pointer;
-            transition: opacity 0.5s ease-in;
-        }
-        
-        .envelope-wrapper {
-            position: relative;
-        }
-        
-        .envelope-icon {
-            font-size: 150px; /* Ajustado para ícone de envelope */
-            color: var(--cor-branco);
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        .envelope-heart {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 30px;
-            color: var(--cor-principal);
-            z-index: 3;
-            animation: pulse 1.5s infinite;
-        }
-        
-        #envelope-screen h2 {
-            font-family: var(--fonte-corpo);
-            font-weight: 400;
-            font-size: 1.2rem;
-            color: var(--cor-principal);
-            margin-top: 20px;
-        }
-
-        /* --- Tela da Carta --- */
-        #letter-screen {
-            height: 100%;
-            background-color: var(--cor-branco);
-            display: flex;
-            flex-direction: column;
-            transition: opacity 1s ease-in;
-        }
-
-        .letter-content {
-            flex-grow: 1;
-            padding: 30px 25px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .letter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px dashed var(--cor-fundo);
-            padding-bottom: 15px;
+        .login-box h1 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
             margin-bottom: 20px;
         }
-
-        .letter-header h2 {
-            font-family: var(--fonte-titulo);
-            font-size: 2.5rem;
-            color: var(--cor-principal);
-            font-weight: 700;
+        .login-box input[type="password"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ffccdd;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 1.1em;
+            text-align: center;
         }
-        
-        .letter-icon {
-            font-size: 2rem;
-            color: var(--cor-principal);
-        }
-
-        .letter-body p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--cor-texto);
-            text-align: justify;
-        }
-        
-        .letter-body p strong {
-            color: var(--cor-principal);
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            border-top: 1px solid var(--cor-fundo);
-        }
-
-        .nav-button {
+        .login-box button {
+            background-color: #e91e63;
+            color: white;
             padding: 10px 20px;
-            background-color: var(--cor-principal);
-            color: var(--cor-branco);
             border: none;
             border-radius: 8px;
-            font-size: 1.5rem;
             cursor: pointer;
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
         }
-        
-        .nav-button.hidden {
-            visibility: hidden;
-            opacity: 0;
+        .login-box button:hover {
+            background-color: #d81b60;
         }
-        
-        /* --- Classes de Ocultar --- */
-        .hidden {
-            display: none !important;
+        #login-message {
+            color: red;
+            margin-top: 10px;
+            height: 20px; /* Mantém o espaço para a mensagem */
         }
 
+        /* --- Estilos da Carta --- */
+        #carta-content {
+            display: none; /* Escondida por padrão, será mostrada após o login */
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        h3 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            font-size: 2.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fce4ec;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+        }
+        /* Estilo especial para o contador */
+        #contador-contrato {
+            font-weight: 700;
+            color: #d81b60;
+            background-color: #fdeef4;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        /* Estilo para o player de música (NOVO) */
+        .player-musica {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .player-musica:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-
-        <div id="login-screen">
-            <div class="heart-icon">❤️</div>
-            <h1>Presente Especial</h1>
-            <p>Por favor, insira a senha para ver sua mensagem.</p>
-            <input type="password" id="password-input" inputmode="numeric">
-            <button id="login-button">Desbloquear</button>
-            <p id="error-message">Senha incorreta. Tente novamente.</p>
+    <div id="login-screen">
+        <div class="login-box">
+            <h1>🔓 Segredo</h1>
+            <p>Para ver a mensagem, digite a senha:</p>
+            <input type="password" id="senha-input" placeholder="Digite a senha aqui">
+            <div id="login-message"></div>
+            <button onclick="verificarSenha()">Entrar</button>
         </div>
-
-        <div id="envelope-screen" class="hidden">
-            <div class="envelope-wrapper">
-                <svg class="envelope-icon" xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H2V8l10 7 10-7v10zM2 6l10 7 10-7H2z"/>
-                </svg>
-                <div class="envelope-heart">❤️</div>
-            </div>
-            <h2>Clique para abrir</h2>
-        </div>
-
-        <div id="letter-screen" class="hidden">
-            <div class="letter-content">
-                <div class="letter-header">
-                    <div class="letter-icon">💌</div>
-                    <h2 id="section-title">Introdução:</h2>
-                    <div class="letter-icon">❤️</div>
-                </div>
-                <div class="letter-body">
-                    <p id="section-content">Carregando...</p>
-                </div>
-            </div>
-            
-            <div class="navigation">
-                <button id="prev-btn" class="nav-button hidden">←</button>
-                <button id="next-btn" class="nav-button">→</button>
-            </div>
-        </div>
-
     </div>
 
-    </body>
+    <div id="carta-content">
+        <main class="container">
+
+            <h3>💌 Introdução</h3>
+            <p>Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasição certa”. Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim</strong>. Esse presente é, acima de tudo, a forma como estou dizendo “eu te amo”.</p>
+
+            <h3>❤️ O que eu sinto</h3>
+            <p>Vida, agora faltam <span id="contador-contrato">carregando...</span> pra acabar meu contrato — e não é sobre isso. Na verdade, é sobre o improvável que você fez. Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa… você fez coisas que, lá no começo, eu nem imaginava. E mesmo assim, foi lá e fez. Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.</p>
+            <p>Você me encanta em todos os momentos. Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda. Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.</p>
+
+            <h3>📈 Nosso Crescimento</h3>
+            <p>Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez. Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar. Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.</p>
+            <p>Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu. Mas a gente já aprendeu a se respeitar. E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir. Com você, eu me vejo crescendo.</p>
+
+            <h3>🗓️ Nossas Lembranças</h3>
+            <p>Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury? Pois é, ele me ajudou muito. Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito. Foi quase uma terapia, sabia?</p>
+
+            <h3>💍 Nossos Planos</h3>
+            <p>Eu tenho muitos planos pra nós dois — e sei que você também tem. Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.</p>
+
+            <h3>Para Terminar...</h3>
+            <p>E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:</p>
+            <p>Eu te amo pra caralho.<br>
+            Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.<br>
+            Te amo, te quero — e você já faz parte de mim.</p>
+
+        </main>
+
+        <div class="player-musica">
+            <audio id="musica-fundo" controls loop>
+                <source src="sua-musica.mp3" type="audio/mpeg">
+                Seu navegador não suporta o player de áudio.
+            </audio>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
 </html>
-<script>
-    // --- ELEMENTOS DO HTML ---
-    const loginScreen = document.getElementById('login-screen');
-    const passwordInput = document.getElementById('password-input');
-    const loginButton = document.getElementById('login-button');
-    const errorMessage = document.getElementById('error-message');
-    
-    const envelopeScreen = document.getElementById('envelope-screen');
-    const letterScreen = document.getElementById('letter-screen');
-    
-    const sectionTitle = document.getElementById('section-title');
-    const sectionContent = document.getElementById('section-content');
-    const prevButton = document.getElementById('prev-btn');
-    const nextButton = document.getElementById('next-btn');
-
-    // --- CONFIGURAÇÕES ---
-    const SENHA_CORRETA = "1215"; // A senha que você digitou no vídeo (1-2-1-5)
-    let secaoAtual = 0;
-
-    // --- CONTEÚDO DA CARTA (Separado por seções) ---
-    const secoes = [
-        {
-            title: "💌 Introdução:",
-            content: `Vida... então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem "ocasião certa". Não é só sobre os chocolates, os Bis, as latas... é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim</strong>. Esse presente é, acima de tudo, a forma como estou dizendo <strong>"eu te amo"</strong>.`
-        },
-        {
-            title: "⏳ Nossa Contagem:",
-            content: `Vida, agora faltam <strong>12d 02h 00m 17s</strong> pra acabar meu contrato — e não é sobre isso. Na verdade, é sobre o improvável que você fez. Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa... você fez coisas que, lá no começo, eu nem imaginava. E mesmo assim, foi lá e fez. Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.`
-        },
-        {
-            title: "❤️ O que eu sinto:",
-            content: `Você me encanta em todos os momentos. Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo... e pronto, tudo muda. Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.`
-        },
-        {
-            title: "🌱 Nosso Crescimento:",
-            content: `Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu. Mas a gente já aprendeu a se respeitar. E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir. Com você, eu me vejo crescendo.`
-        },
-        {
-            title: "📚 Nossas Lembranças:",
-            content: `Ah, e lembra do livro que você me deu — "Nunca Desista dos Seus Sonhos", do Augusto Cury? Pois é, ele me ajudou muito. Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito. Foi quase uma terapia, sabia?`
-        },
-        {
-            title: "💍 Nossos Planos:",
-            content: `Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez. Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar. Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.<br><br>Eu tenho muitos planos pra nós dois — e sei que você também tem. Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.`
-        },
-        {
-            title: "❤️‍🔥 Para Terminar...",
-            content: `E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:<br><br><strong>Eu te amo pra caralho.</strong><br>Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.<br>Te amo, te quero — e você já faz parte de mim.`
-        }
-    ];
-
-    // --- FUNÇÕES ---
-
-    // 1. Verifica a senha
-    function checarSenha() {
-        if (passwordInput.value === SENHA_CORRETA) {
-            loginScreen.classList.add('hidden');
-            // Pequeno atraso para a animação de fade-out do login
-            setTimeout(() => {
-                envelopeScreen.classList.remove('hidden');
-            }, 300);
-        } else {
-            errorMessage.style.display = 'block';
-            passwordInput.value = '';
-        }
-    }
-
-    // 2. Abre o envelope
-    function abrirEnvelope() {
-        envelopeScreen.classList.add('hidden');
-        letterScreen.classList.remove('hidden');
-        mostrarSecao(0); // Mostra a primeira seção (Introdução)
-    }
-
-    // 3. Mostra a seção atual
-    function mostrarSecao(index) {
-        // Pega a seção do array
-        const secao = secoes[index];
-        
-        // Atualiza o HTML
-        sectionTitle.innerHTML = secao.title;
-        sectionContent.innerHTML = secao.content;
-        
-        // Atualiza os botões
-        if (index === 0) {
-            prevButton.classList.add('hidden'); // Esconde "Voltar" na primeira pág
-        } else {
-            prevButton.classList.remove('hidden');
-        }
-        
-        if (index === secoes.length - 1) {
-            nextButton.classList.add('hidden'); // Esconde "Avançar" na última pág
-        } else {
-            nextButton.classList.remove('hidden');
-        }
-    }
-
-    // 4. Navega para a próxima seção
-    function proximaSecao() {
-        if (secaoAtual < secoes.length - 1) {
-            secaoAtual++;
-            mostrarSecao(secaoAtual);
-        }
-    }
-
-    // 5. Navega para a seção anterior
-    function secaoAnterior() {
-        if (secaoAtual > 0) {
-            secaoAtual--;
-            mostrarSecao(secaoAtual);
-        }
-    }
-
-    // --- EVENTOS (O que faz tudo funcionar) ---
-    
-    // Clique no botão "Desbloquear"
-    loginButton.addEventListener('click', checarSenha);
-    
-    // Permite apertar "Enter" para desbloquear
-    passwordInput.addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') {
-            checarSenha();
-        }
-    });
-    
-    // Clique no envelope
-    envelopeScreen.addEventListener('click', abrirEnvelope);
-    
-    // Cliques nos botões de navegação
-    nextButton.addEventListener('click', proximaSecao);
-    prevButton.addEventListener('click', secaoAnterior);
-
-</script>
