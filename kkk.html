@@ -37,7 +37,7 @@
 
         /* --- Estilo para Negrito (strong) em Cor Rosa --- */
         strong {
-            color: #e91e63; /* Mesma cor dos títulos */
+            color: #e91e63;
         }
 
         /* --- TELA DE SENHA E MODAL --- */
@@ -108,7 +108,7 @@
             opacity: 1;
         }
 
-        /* --- TELA DE ENVELOPE (VISUAL PERFEITO COMO SOLICITADO) --- */
+        /* --- TELA DE ENVELOPE (VISUAL CORRIGIDO) --- */
         #envelope-screen {
             position: fixed;
             top: 0;
@@ -142,14 +142,13 @@
             left: 0;
             width: 0;
             height: 0;
-            /* Aba triangular rosa, centralizada no topo */
             border-left: 125px solid transparent;
             border-right: 125px solid transparent;
             border-bottom: 75px solid #ff99aa;
             border-radius: 5px;
             transform-origin: top;
             transition: transform 0.5s ease;
-            /* Z-index 3 para garantir que fique por cima do corpo e do coração */
+            /* Z-index 3 para garantir que a aba cubra o corpo quando FECHADA */
             z-index: 3; 
         }
         .envelope-wrapper.open .envelope-flap {
@@ -163,8 +162,8 @@
             transform: translate(-50%, 0);
             font-size: 2.5em;
             color: #d81b60;
-            /* Z-index 2: Fica entre o corpo e a aba */
-            z-index: 2; 
+            /* Z-index 4: Fica SEMPRE POR CIMA para parecer um selo */
+            z-index: 4; 
             transition: transform 0.3s ease-in-out;
         }
         .envelope-wrapper:hover .envelope-heart {
@@ -178,7 +177,7 @@
             text-align: center;
             font-family: 'Pacifico', cursive;
             color: #d81b60;
-            font-size: 1.5em; /* Aumentado para melhor visibilidade */
+            font-size: 1.5em;
             z-index: 4;
         }
 
@@ -288,8 +287,8 @@
 
     <div id="envelope-screen">
         <div class="envelope-wrapper">
-            <div class="envelope-flap"></div>
             <div class="envelope-body"></div>
+            <div class="envelope-flap"></div>
             <div class="envelope-heart">❤️</div>
             <div id="envelope-text">Clique para abrir</div>
         </div>
