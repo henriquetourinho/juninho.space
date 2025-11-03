@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <title>Uma Mensagem Para Você</title>
+    <style>
+        /* Importa uma fonte romântica */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
+
+        /* Estilos Globais */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            color: #333;
+            /* Trava o scroll por padrão */
+            overflow: hidden; 
+        }
+
+        /* --- Estilo do Modal de Senha --- */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        #password-modal {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        #password-modal h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #d6336c;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        #password-modal p {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        #password-input {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #password-button {
+            background: linear-gradient(135deg, #d6336c, #ad1a73);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #password-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(214, 51, 108, 0.4);
+        }
+
+        #error-message {
+            color: #d90429;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: none; /* Escondido por padrão */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animação de "shake" para erro */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* --- Estilo do Envelope --- */
+        #envelope-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            display: none; /* Começa escondido */
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #fffafa;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s ease-out;
+        }
+        
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: #f7d9dd;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            transform-origin: bottom;
+            transition: transform 0.7s ease-out;
+            clip-path: polygon(0 0, 100% 0, 100% 0, 50% 100%, 0 0);
+        }
+        
+        .envelope-body {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: #fffafa;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        
+        .envelope-heart {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            color: #d6336c;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+        
+        .envelope-wrapper.open .envelope-heart {
+            opacity: 0;
+        }
+        
+        #envelope-text {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+
+        /* --- Estilo da Leitura Guiada --- */
+        #content {
+            display: none; /* Escondido por padrão */
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        /* Classe base para os elementos que vão aparecer */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-out, transform 1.0s ease-out;
+        }
+        
+        /* Classe que o JS vai adicionar para tornar visível */
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* --- Estilo da Carta --- */
+        .letter-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fffafa;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            position: relative;
+        }
+
+        .letter-container::before {
+            content: '❤️';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+
+        .letter-container h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #d6336c;
+            border-bottom: 2px solid #f8d7da;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .letter-container p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .letter-container strong {
+            color: #c2185b;
+            font-weight: 600;
+        }
+        
+        #countdown {
+            color: #d6336c;
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+
+        /* --- Estilo do Botão de Música --- */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(214, 51, 108, 0.8);
+            color: white;
+            border-radius: 50%;
+            display: none; /* Começa escondido */
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        #music-control:hover {
+            transform: scale(1.1);
+            background: #d6336c;
+        }
+
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .envelope-wrapper {
+                width: 250px;
+                height: 166px;
+            }
+            .envelope-body { top: 83px; height: 83px; }
+            .envelope-flap { height: 83px; }
+            .envelope-heart { top: 60px; font-size: 2rem; }
+            
+            .letter-container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            .letter-container h2 { font-size: 2.2rem; }
+            .letter-container p { font-size: 1rem; }
+            .letter-container::before { font-size: 1.5rem; top: 15px; right: 20px; }
+            #countdown { font-size: 1.05rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="love-song" loop>
+        <source src="https://henriquetourinho.github.io/media/naoprecisamudar.mp3" type="audio/mpeg">
+        Seu navegador não suporta este áudio.
+    </audio>
+
+    <div id="password-overlay">
+        <div id="password-modal">
+            <h2>❤️</h2>
+            <h2>Presente Especial</h2>
+            <p>Por favor, insira a senha para ver sua mensagem.</p>
+            <input type="password" id="password-input" placeholder="****" inputmode="numeric">
+            <button id="password-button">Desbloquear</button>
+            <p id="error-message">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+    
+    <div id="envelope-screen">
+        <div class="envelope-wrapper">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="envelope-heart">❤️</div>
+            <div id="envelope-text">Clique para abrir</div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="letter-container">
+            <h2 class="fade-in-section">💌 Introdução:</h2>
+            <p class="fade-in-section">
+                Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade.
+                Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasião certa”.
+                Não é só sobre os chocolates, os Bis, as latas… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim.</strong>
+                Esse presente é, acima de tudo, a forma como estou dizendo <strong>“eu te amo”</strong>.
+            </p>
+
+            <hr class="fade-in-section" style="border: 0; border-top: 1px dashed #ee9ca7; margin: 30px 0;">
+
+            <h2 class="fade-in-section">❤️ Mensagem:</h2>
+            <p class="fade-in-section">
+                Vida, agora faltam <span id="countdown"></span> pra acabar meu contrato — e não é sobre isso.
+                Na verdade, é sobre o improvável que você fez.
+                Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa… você fez coisas que, lá no começo, eu nem imaginava.
+                E mesmo assim, foi lá e fez.
+                Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.
+            </p>
+            <p class="fade-in-section">
+                Você me encanta em todos os momentos.
+                Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda.
+                Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.
+            </p>
+            <p class="fade-in-section">
+                Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez.
+                Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar.
+                Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.
+            </p>
+            <p class="fade-in-section">
+                Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu.
+                Mas a gente já aprendeu a se respeitar.
+                E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir.
+                Com você, eu me vejo crescendo.
+            </p>
+            <p class="fade-in-section">
+                Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury?
+                Pois é, ele me ajudou muito.
+                Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito.
+                Foi quase uma terapia, sabia?
+            </p>
+            <p class="fade-in-section">
+                Eu tenho muitos planos pra nós dois — e sei que você também tem.
+                Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.
+            </p>
+            <p class="fade-in-section">
+                E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:
+            </p>
+            <p class="fade-in-section">
+                <strong>Eu te amo pra caralho.</strong><br>
+                <strong>Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.</strong><br>
+                <strong>Te amo, te quero — e você já faz parte de mim.</strong>
+            </p>
+        </div>
+    </div>
+
+    <div id="music-control">🔊</div>
+
+
+    <script>
+        // === LÓGICA DO CONTADOR REGRESSIVO ===
+        const targetDate = new Date(2025, 10, 15, 0, 0, 0).getTime();
+        const countdownElement = document.getElementById('countdown');
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const fHours = hours < 10 ? "0" + hours : hours;
+            const fMinutes = minutes < 10 ? "0" + minutes : minutes;
+            const fSeconds = seconds < 10 ? "0" + seconds : seconds;
+            
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = "finalizado!";
+            } else {
+                countdownElement.innerHTML = `${days}d ${fHours}h ${fMinutes}m ${fSeconds}s`;
+            }
+        }, 1000);
+
+
+        // === LÓGICA PRINCIPAL (SENHA, MÚSICA, ETC.) ===
+
+        // Pega os elementos do DOM
+        const passwordOverlay = document.getElementById('password-overlay');
+        const passwordModal = document.getElementById('password-modal');
+        const passwordInput = document.getElementById('password-input');
+        const passwordButton = document.getElementById('password-button');
+        const errorMessage = document.getElementById('error-message');
+        const content = document.getElementById('content');
+        const body = document.body;
+        const htmlElement = document.documentElement;
+        const envelopeScreen = document.getElementById('envelope-screen');
+        const envelopeWrapper = document.querySelector('.envelope-wrapper');
+        const audioPlayer = document.getElementById('love-song');
+        const musicControl = document.getElementById('music-control');
+        let isPlaying = true; 
+
+        // --- FUNÇÃO 1: Feedback de Vibração ---
+        function vibrateFeedback() {
+            // Verifica se o navegador suporta a API de vibração
+            if ('vibrate' in navigator) {
+                // Vibração curta de 50ms
+                navigator.vibrate(50);
+            }
+        }
+
+        // --- FUNÇÃO 2: Player de Notificação Personalizado ---
+        function setupMediaSession() {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'Não Precisa Mudar',
+                    artist: 'Ivete Sangalo & Saulo',
+                    album: 'Presente Especial',
+                    // Arte do álbum: um SVG de coração (não precisa de arquivo)
+                    artwork: [
+                        { 
+                          src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">❤️</text></svg>', 
+                          type: 'image/svg+xml' 
+                        }
+                    ]
+                });
+                
+                // Permite controlar (pausar/tocar) pela notificação
+                navigator.mediaSession.setActionHandler('play', () => toggleMusic());
+                navigator.mediaSession.setActionHandler('pause', () => toggleMusic());
+            }
+        }
+
+
+        // 1. Função para verificar a senha
+        function checkPassword() {
+            if (passwordInput.value === '2025') {
+                vibrateFeedback(); // <-- VIBRAÇÃO AQUI
+                passwordOverlay.style.display = 'none';
+                envelopeScreen.style.display = 'flex';
+            } else {
+                errorMessage.style.display = 'block';
+                passwordModal.style.animation = 'shake 0.3s';
+                setTimeout(() => {
+                    passwordModal.style.animation = 'fadeIn 0.5s ease-out';
+                }, 300);
+            }
+        }
+
+        // 2. Função para abrir o envelope
+        function openLetter() {
+            vibrateFeedback(); // <-- VIBRAÇÃO AQUI
+            envelopeWrapper.classList.add('open');
+            
+            audioPlayer.play().catch(e => console.warn("Autoplay falhou:", e));
+            setupMediaSession(); // <-- PLAYER PERSONALIZADO AQUI
+            musicControl.style.display = 'flex'; 
+
+            setTimeout(() => {
+                envelopeScreen.style.display = 'none';
+                content.style.display = 'block';
+                body.style.overflow = 'auto';
+                htmlElement.style.overflow = 'auto';
+                startGuidedReading();
+            }, 1500);
+        }
+        
+        // 3. Função da Leitura Guiada
+        function startGuidedReading() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            let delay = 500; 
+
+            sections.forEach(section => {
+                setTimeout(() => {
+                    section.classList.add('visible');
+                }, delay);
+                
+                if (section.tagName === 'P') {
+                    delay += 2500; // 2.5s
+                } else {
+                    delay += 1000; // 1s
+                }
+            });
+        }
+
+        // 4. Função para pausar/tocar a música
+        function toggleMusic() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                musicControl.textContent = '🔇';
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'paused';
+                }
+            } else {
+                audioPlayer.play();
+                musicControl.textContent = '🔊';
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'playing';
+                }
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Event Listeners
+        passwordButton.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') checkPassword();
+        });
+        envelopeScreen.addEventListener('click', openLetter);
+        musicControl.addEventListener('click', toggleMusic);
+
+    </script>
+
+</body>
+</html>
