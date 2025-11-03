@@ -117,4 +117,3 @@ controleMusica.addEventListener('click', toggleMusica);
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
 });
-                                 
