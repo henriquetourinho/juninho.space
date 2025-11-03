@@ -19,6 +19,8 @@
             color: #333;
             /* Trava o scroll por padrão */
             overflow: hidden; 
+            /* Garante que a rolagem suave do JS funcione em tudo */
+            scroll-behavior: smooth;
         }
 
         /* --- Estilo do Modal de Senha --- */
@@ -202,14 +204,12 @@
             box-sizing: border-box;
         }
         
-        /* Classe base para os elementos que vão aparecer */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1.2s ease-out, transform 1.0s ease-out;
         }
         
-        /* Classe que o JS vai adicionar para tornar visível */
         .fade-in-section.visible {
             opacity: 1;
             transform: translateY(0);
@@ -373,8 +373,7 @@
                 Mas a gente já aprendeu a se respeitar.
                 E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir.
                 Com você, eu me vejo crescendo.
-            </p>
-            <p class="fade-in-section">
+            </p> <p class="fade-in-section">
                 Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury?
                 Pois é, ele me ajudou muito.
                 Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito.
@@ -444,9 +443,7 @@
 
         // --- FUNÇÃO 1: Feedback de Vibração ---
         function vibrateFeedback() {
-            // Verifica se o navegador suporta a API de vibração
             if ('vibrate' in navigator) {
-                // Vibração curta de 50ms
                 navigator.vibrate(50);
             }
         }
@@ -458,7 +455,6 @@
                     title: 'Não Precisa Mudar',
                     artist: 'Ivete Sangalo & Saulo',
                     album: 'Presente Especial',
-                    // Arte do álbum: um SVG de coração (não precisa de arquivo)
                     artwork: [
                         { 
                           src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">❤️</text></svg>', 
@@ -467,7 +463,6 @@
                     ]
                 });
                 
-                // Permite controlar (pausar/tocar) pela notificação
                 navigator.mediaSession.setActionHandler('play', () => toggleMusic());
                 navigator.mediaSession.setActionHandler('pause', () => toggleMusic());
             }
@@ -477,7 +472,7 @@
         // 1. Função para verificar a senha
         function checkPassword() {
             if (passwordInput.value === '2025') {
-                vibrateFeedback(); // <-- VIBRAÇÃO AQUI
+                vibrateFeedback(); 
                 passwordOverlay.style.display = 'none';
                 envelopeScreen.style.display = 'flex';
             } else {
@@ -491,11 +486,11 @@
 
         // 2. Função para abrir o envelope
         function openLetter() {
-            vibrateFeedback(); // <-- VIBRAÇÃO AQUI
+            vibrateFeedback(); 
             envelopeWrapper.classList.add('open');
             
             audioPlayer.play().catch(e => console.warn("Autoplay falhou:", e));
-            setupMediaSession(); // <-- PLAYER PERSONALIZADO AQUI
+            setupMediaSession(); 
             musicControl.style.display = 'flex'; 
 
             setTimeout(() => {
@@ -503,24 +498,38 @@
                 content.style.display = 'block';
                 body.style.overflow = 'auto';
                 htmlElement.style.overflow = 'auto';
-                startGuidedReading();
+                startGuidedReading(); // Inicia a leitura guiada
             }, 1500);
         }
         
-        // 3. Função da Leitura Guiada
+        // --- FUNÇÃO 3: Leitura Guiada (COM ROLAGEM AUTOMÁTICA) ---
         function startGuidedReading() {
             const sections = document.querySelectorAll('.fade-in-section');
-            let delay = 500; 
+            let delay = 500; // Delay inicial
+            let isFirstElement = true; // Flag para não rolar no primeiro elemento
 
             sections.forEach(section => {
                 setTimeout(() => {
+                    // 1. Torna a seção visível
                     section.classList.add('visible');
+                    
+                    // 2. Rola até a seção (exceto a primeira)
+                    if (isFirstElement) {
+                        isFirstElement = false;
+                    } else {
+                        // Rola suavemente para centralizar o novo elemento
+                        section.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
                 }, delay);
                 
+                // 3. Define o delay para o PRÓXIMO item
                 if (section.tagName === 'P') {
-                    delay += 2500; // 2.5s
+                    delay += 3500; // 3.5s de tempo de leitura para parágrafos
                 } else {
-                    delay += 1000; // 1s
+                    delay += 1500; // 1.5s para títulos e linhas
                 }
             });
         }
