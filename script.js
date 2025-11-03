@@ -38,29 +38,35 @@ function iniciarContador() {
     }, 1000);
 }
 
-// --- NOVO: FUNÇÃO PARA CHUVA DE CORAÇÕES ---
+// --- FUNÇÃO PARA CHUVA DE CORAÇÕES (CORRIGIDA) ---
 function iniciarChuvaDeCoracoes() {
     const heartShower = document.getElementById('heart-shower');
     // Cores rosa e vermelho que combinam com o design
     const heartColors = ['#E91E63', '#FF4081', '#FF80AB', '#D81B60', '#FF99AA']; 
 
     function criarCoracao() {
-        const coracao = document.createElement('div');
-        coracao.className = 'heart';
-        coracao.style.left = `${Math.random() * 100}vw`; // Posição horizontal aleatória
-        coracao.style.animationDuration = `${Math.random() * 2 + 4}s`; // Duração aleatória (4s a 6s)
-        coracao.style.animationDelay = `${Math.random() * 0.5}s`; // Pequeno atraso aleatório
-        coracao.style.color = heartColors[Math.floor(Math.random() * heartColors.length)]; // Cor aleatória
-        heartShower.appendChild(coracao);
+        const coracaoContainer = document.createElement('div');
+        coracaoContainer.className = 'heart';
+        coracaoContainer.style.left = `${Math.random() * 100}vw`; 
+        coracaoContainer.style.animationDuration = `${Math.random() * 2 + 4}s`; 
+        coracaoContainer.style.animationDelay = `${Math.random() * 0.5}s`; 
+        coracaoContainer.style.color = heartColors[Math.floor(Math.random() * heartColors.length)]; 
+
+        // CRIAÇÃO DA FORMA DE CORAÇÃO USANDO O CSS CORRIGIDO
+        const heartShape = document.createElement('div');
+        heartShape.className = 'heart-shape';
+        coracaoContainer.appendChild(heartShape);
+
+        heartShower.appendChild(coracaoContainer);
 
         // Remove o coração após a animação (tempo máximo de 6s) para limpar o DOM
         setTimeout(() => {
-            coracao.remove();
+            coracaoContainer.remove();
         }, 6000); 
     }
 
     // Geração por 5 segundos
-    const intervaloGeracao = setInterval(criarCoracao, 150); // Cria um coração a cada 150ms
+    const intervaloGeracao = setInterval(criarCoracao, 150); 
 
     // Para a geração após 5 segundos (duração total da chuva)
     setTimeout(() => {
@@ -76,11 +82,11 @@ function iniciarObservadorTexto() {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
                 
-                // NOVO: Verifica se o elemento é o subtítulo "Para Terminar..."
+                // Verifica se o elemento é o subtítulo "Para Terminar..."
                 const textoSubtitulo = entry.target.textContent.trim();
                 
                 if (textoSubtitulo === 'Para Terminar...') {
-                    // Impede que a ação seja disparada mais de uma vez ao rolar para cima e para baixo
+                    // Impede que a ação seja disparada mais de uma vez
                     observer.unobserve(entry.target); 
                     
                     // 7 segundos de atraso antes de começar a chuva
