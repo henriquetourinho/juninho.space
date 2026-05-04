@@ -1,471 +1,1162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Uma Mensagem Especial Para Você ❤️</title> 
-    
-    <meta name="description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
-    
-    <meta property="og:site_name" content="Juninho Space">
-    <meta property="og:title" content="O Presente Mais Inovador que Você Já Viu">
-    <meta property="og:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
-    
-    <meta property="og:image" content="https://juninho.space/capa.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    
-    <meta property="og:url" content="https://juninho.space">
-    <meta property="og:type" content="website">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Mês — 04.04</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="O Presente Mais Inovador que Você Já Viu">
-    <meta name="twitter:description" content="Criei uma página secreta só para você, com música, contagem regressiva e a declaração de amor mais sincera.">
-    <meta name="twitter:image" content="https://juninho.space/capa.png">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  :root {
+    --cream: #FAF7F2;
+    --rose: #C4606A;
+    --rose-light: #E8A0A8;
+    --rose-dark: #8B3A42;
+    --nude: #D4B8B0;
+    --text: #2C1A1D;
+    --muted: #7A5A5E;
+  }
 
-    <style>
-        /* Estilos globais */
-        body {
-            background-color: #fdeef4; /* Fundo rosa claro */
-            font-family: 'Roboto', sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            opacity: 0; 
-            transition: opacity 0.5s;
-        }
-        body.loaded {
-            opacity: 1;
-        }
+  html { scroll-behavior: smooth; }
 
-        /* --- Estilo para Negrito (strong) em Cor Rosa --- */
-        strong {
-            color: #e91e63;
-        }
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
 
-        /* --- TELA DE SENHA E MODAL --- */
-        #password-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fdeef4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000; 
-            transition: opacity 0.5s, visibility 0s 0.5s;
-        }
-        #password-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        #password-modal {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 300px;
-        }
-        #password-modal h2 {
-            font-family: 'Pacifico', cursive;
-            color: #e91e63;
-            margin: 0 0 10px 0;
-        }
-        #password-modal p {
-            font-size: 1em;
-            color: #555;
-        }
-        #password-input {
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #ffccdd;
-            border-radius: 8px;
-            width: 80%;
-            font-size: 1.1em;
-            text-align: center;
-        }
-        #password-button {
-            background-color: #e91e63;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: background-color 0.3s;
-        }
-        #password-button:hover {
-            background-color: #d81b60;
-        }
-        #error-message {
-            color: red;
-            margin-top: 10px;
-            height: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        #error-message.visible {
-            opacity: 1;
-        }
+  /* PARTÍCULAS DE FUNDO */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--rose-light);
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translateY(0) scale(0.5); }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(-100vh) scale(1.2); }
+  }
 
-         /* --- Estilo do Envelope --- */
-        #envelope-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-            display: none; /* Começa escondido */
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            cursor: pointer;
-        }
+  /* TELA DE SENHA */
+  #lock-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--cream);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  #lock-screen.hidden { opacity: 0; visibility: hidden; }
 
-        .envelope-wrapper {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            background: #fffafa;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            transition: all 0.5s ease-out;
-        }
+  .lock-icon {
+    width: 60px; height: 60px;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  .lock-icon svg { width: 100%; height: 100%; }
 
-        .envelope-wrapper:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
+  .lock-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 300;
+    color: var(--rose-dark);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .lock-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
 
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: #f7d9dd;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            transform-origin: bottom;
-            transition: transform 0.7s ease-out;
-            clip-path: polygon(0 0, 100% 0, 100% 0, 50% 100%, 0 0);
-        }
+  .pin-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .pin-dots {
+    display: flex;
+    gap: 1rem;
+  }
+  .pin-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 1.5px solid var(--nude);
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .pin-dot.filled {
+    background: var(--rose);
+    border-color: var(--rose);
+    transform: scale(1.1);
+  }
+  .pin-dot.shake {
+    animation: shake 0.4s ease;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
 
-        .envelope-body {
-            position: absolute;
-            top: 100px;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: #fffafa;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
+  .numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 0.5rem;
+  }
+  .num-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--nude);
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .num-btn:hover { background: rgba(196,96,106,0.08); border-color: var(--rose-light); }
+  .num-btn:active { transform: scale(0.94); background: rgba(196,96,106,0.15); }
+  .num-btn.del { font-size: 1rem; color: var(--muted); }
+  .num-btn.empty { visibility: hidden; }
 
-        .envelope-heart {
-            position: absolute;
-            top: 75px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2.5rem;
-            color: #d6336c;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
+  .pin-hint {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--nude);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+  .pin-error {
+    font-size: 0.75rem;
+    color: var(--rose);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.3s;
+    height: 1rem;
+  }
+  .pin-error.show { opacity: 1; }
 
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
+  /* ALERTA DE ERRO */
+  #erro-alerta {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  #erro-alerta.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .erro-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(44, 26, 29, 0.45);
+    backdrop-filter: blur(6px);
+  }
+  .erro-card {
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--rose-light);
+    border-radius: 16px;
+    padding: 2.5rem 2.8rem;
+    text-align: center;
+    max-width: 300px;
+    width: 90%;
+    transform: scale(0.85) translateY(10px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  #erro-alerta.show .erro-card {
+    transform: scale(1) translateY(0);
+  }
+  .erro-icon {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: none;
+  }
+  #erro-alerta.show .erro-icon {
+    animation: wobble 0.5s ease;
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(0deg); }
+    20% { transform: rotate(-12deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(-8deg); }
+    80% { transform: rotate(6deg); }
+  }
+  .erro-titulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--rose-dark);
+    margin-bottom: 0.5rem;
+  }
+  .erro-msg {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .erro-btn {
+    background: var(--rose-dark);
+    color: var(--cream);
+    border: none;
+    border-radius: 30px;
+    padding: 0.6rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .erro-btn:hover { background: var(--rose); }
 
-        .envelope-wrapper.open .envelope-heart {
-            opacity: 0;
-        }
+  /* CONTEÚDO PRINCIPAL */
+  #main { position: relative; z-index: 1; }
 
-        #envelope-text {
-            position: absolute;
-            bottom: -50px;
-            width: 100%;
-            text-align: center;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
-            color: #fff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+  }
 
+  .hero-date {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
 
-        /* --- CONTEÚDO DA CARTA (Box Shadow Aprimorada) --- */
-        #content {
-            display: none;
-            padding: 20px 0;
-        }
-        .letter-container {
-            max-width: 700px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(0, 0, 0, 0.05); 
-        }
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            transition-delay: var(--delay);
-        }
-        .fade-in-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Estilos dos Títulos */
-        h2 {
-            font-family: 'Pacifico', cursive;
-            color: #e91e63;
-            font-size: 2.5em;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 1.1em;
-            line-height: 1.7;
-            color: #555;
-            margin-bottom: 1.5em;
-        }
-        hr {
-            border: 0; 
-            border-top: 1px dashed #ee9ca7; 
-            margin: 30px 0;
-        }
-        
-        /* Estilo especial para o contador */
-        #countdown {
-            font-weight: 700;
-            color: #d81b60;
-            background-color: #fdeef4;
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5rem, 20vw, 14rem);
+    font-weight: 300;
+    line-height: 0.85;
+    color: var(--rose-dark);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+  }
+  .hero-title span {
+    display: block;
+    font-style: italic;
+    font-size: 0.55em;
+    color: var(--rose);
+    letter-spacing: 0.05em;
+  }
 
-        /* --- NOVO: CHUVA DE CORAÇÕES CSS CORRIGIDO --- */
-        #heart-shower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; 
-            overflow: hidden;
-            z-index: 99; 
-        }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
 
-        .heart {
-            position: absolute;
-            width: 25px; /* Aumentado para melhor visibilidade */
-            height: 25px;
-            /* Usaremos o próprio texto do coração (emoji) ou a forma */
-            font-size: 25px;
-            line-height: 1;
-            transform: translateY(-100px);
-            opacity: 0;
-            animation: fall linear infinite;
-        }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s 2s forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--nude);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--nude), transparent);
+    animation: scrollDown 1.5s ease-in-out infinite;
+  }
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
 
-        /* Corrigido para usar a forma de coração do CSS mais tradicional */
-        .heart-shape {
-            position: relative;
-            width: 20px;
-            height: 20px;
-            transform: rotate(-45deg);
-            background: currentColor; /* Usa a cor definida no JS */
-        }
-        .heart-shape::before, .heart-shape::after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: currentColor;
-            border-radius: 50%;
-        }
+  /* LINHA DO TEMPO */
+  .section {
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-        .heart-shape::before {
-            top: -50%;
-            left: 0;
-        }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--nude);
+    opacity: 0.5;
+  }
 
-        .heart-shape::after {
-            left: 50%;
-            top: 0;
-        }
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--nude), transparent);
+  }
 
-        /* Animação de Queda */
-        @keyframes fall {
-            0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        /* --- FIM: CHUVA DE CORAÇÕES CSS CORRIGIDO --- */
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 2.5rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
 
+  .timeline-dot {
+    position: absolute;
+    left: -5px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--rose);
+    box-shadow: 0 0 0 4px var(--cream), 0 0 0 5px var(--nude);
+  }
 
+  .timeline-date {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.8rem;
+  }
 
-        /* --- CONTROLE DE MÚSICA E RODAPÉ --- */
-        #music-control {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background-color: #e91e63;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 1.2em;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-        }
-        /* Estilo do Rodapé */
-        #page-footer {
-            max-width: 700px;
-            margin: 50px auto 30px auto;
-            text-align: center;
-            font-size: 0.9em;
-            color: #a0a0a0;
-            padding: 10px 0;
-            border-top: 1px solid #ffccdd;
-            display: none;
-        }
-    </style>
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    color: var(--rose-dark);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--muted);
+    max-width: 520px;
+  }
+
+  /* GALERIA DE FOTOS */
+  .gallery-section {
+    padding: 4rem 2rem 8rem;
+    background: #F5EEE8;
+    position: relative;
+    overflow: hidden;
+  }
+  .gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--nude), transparent);
+  }
+
+  .gallery-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 16px;
+    margin-top: 3rem;
+  }
+
+  .photo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .photo-card:nth-child(1) { grid-column: 1; grid-row: 1 / 3; transition-delay: 0s; }
+  .photo-card:nth-child(2) { grid-column: 2; grid-row: 1; transition-delay: 0.15s; }
+  .photo-card:nth-child(3) { grid-column: 2; grid-row: 2; transition-delay: 0.3s; }
+  .photo-card:nth-child(4) { grid-column: 1; grid-row: 3; transition-delay: 0.45s; }
+  .photo-card:nth-child(5) { grid-column: 2; grid-row: 3; transition-delay: 0.6s; }
+  .photo-card:nth-child(6) { grid-column: 1 / 3; grid-row: 4; transition-delay: 0.75s; }
+
+  .photo-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+    min-height: 250px;
+  }
+  .photo-card:hover img { transform: scale(1.04); }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2rem 1.2rem 1.2rem;
+    background: linear-gradient(transparent, rgba(44,26,29,0.7));
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .photo-card:hover .photo-caption { opacity: 1; }
+
+  /* CARTA FINAL */
+  .letter-section {
+    padding: 8rem 2rem;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .letter-deco {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    color: var(--rose-light);
+    line-height: 1;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    margin-bottom: -1rem;
+  }
+
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.9s ease;
+  }
+  .letter-body.visible { opacity: 1; transform: translateY(0); }
+
+  .letter-body em {
+    color: var(--rose-dark);
+    font-style: italic;
+  }
+
+  .letter-sign {
+    margin-top: 3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--rose);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.9s 0.3s ease;
+  }
+  .letter-sign.visible { opacity: 1; transform: translateY(0); }
+
+  /* CONTADOR */
+  .counter-section {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: var(--rose-dark);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .counter-section::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30rem;
+    color: rgba(255,255,255,0.04);
+    top: -8rem; left: -3rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .counter-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rose-light);
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  .counter-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+  }
+
+  .future-note {
+    margin-top: 2.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-style: italic;
+    color: var(--rose-light);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .music-highlight {
+    margin-top: 1.5rem;
+    padding: 1.2rem 1.4rem;
+    border-left: 2px solid var(--rose);
+    background: rgba(196,96,106,0.06);
+    border-radius: 0 8px 8px 0;
+  }
+  .music-highlight .music-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .music-highlight .music-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--rose-dark);
+  }
+  .music-highlight .music-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* RODAPÉ */
+  footer {
+    padding: 3rem 2rem;
+    text-align: center;
+    background: var(--rose-dark);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  footer p {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* UTILS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* MUSIC BTN */
+  #music-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--nude);
+    background: var(--cream);
+    color: var(--rose);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+    display: none;
+  }
+  #music-btn:hover { transform: scale(1.08); background: var(--rose); color: var(--cream); }
+
+  /* POPUP FOTO */
+  #photo-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    padding: 1rem;
+  }
+  #photo-popup.open { opacity: 1; visibility: visible; }
+
+  .popup-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 8, 10, 0.88);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+
+  .popup-img-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 520px);
+    max-height: 90vh;
+    transform: scale(0.88);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  #photo-popup.open .popup-img-wrap { transform: scale(1); }
+
+  .popup-img-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .popup-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-top: 0.8rem;
+  }
+
+  .popup-close {
+    position: absolute;
+    top: -14px; right: -14px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--rose-dark);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+  }
+
+  .photo-card { cursor: pointer; }
+
+  /* RESPONSIVIDADE MOBILE */
+  @media (max-width: 600px) {
+    .hero-title { font-size: clamp(5rem, 28vw, 10rem); }
+
+    .section { padding: 4rem 1.2rem; }
+
+    .timeline { padding-left: 1.2rem; }
+    .timeline-item { padding: 0 0 3rem 1.8rem; }
+
+    .gallery-section { padding: 3rem 1rem 5rem; }
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .photo-card:nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
+    .photo-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+    .photo-card:nth-child(3) { grid-column: 2; grid-row: 2; }
+    .photo-card:nth-child(4) { grid-column: 1; grid-row: 3; }
+    .photo-card:nth-child(5) { grid-column: 2; grid-row: 3; }
+    .photo-card:nth-child(6) { grid-column: 1 / 3; grid-row: 4; }
+    .photo-card img { min-height: 160px; }
+
+    .letter-section { padding: 4rem 1.2rem; }
+
+    .counter-section { padding: 4rem 1.2rem; }
+    .counter-section::before { font-size: 14rem; }
+
+    .lock-title { font-size: 2.2rem; }
+    .num-btn { width: 56px; height: 56px; font-size: 1.1rem; }
+
+    .music-highlight { padding: 1rem; }
+
+    #music-btn { bottom: 1rem; right: 1rem; width: 42px; height: 42px; }
+
+    .photo-caption { opacity: 1; }
+  }
+</style>
 </head>
-
 <body>
-    
-    <div id="heart-shower"></div>
 
-        <audio id="love-song" loop 
-        data-name="Não Precisa Mudar"
-        data-artist="Ivete Sangalo & Saulo"
-        data-cover="https://juninho.space/naoprecisamudar.jpg">
-        <source src="https://henriquetourinho.github.io/media/naoprecisamudar.mp3" type="audio/mpeg">
-        Seu navegador não suporta este áudio.
-    </audio>
+<!-- PARTÍCULAS -->
+<div id="particles"></div>
 
-    <div id="password-overlay">
-        <div id="password-modal">
-            <h2>❤️</h2>
-            <h2>Presente Especial</h2>
-            <p>Por favor, insira a senha para ver sua mensagem.</p>
-            <input type="password" id="password-input" placeholder="****" inputmode="numeric">
-            <button id="password-button">Desbloquear</button>
-            <p id="error-message">Senha incorreta. Tente novamente.</p>
-        </div>
+<!-- TELA DE SENHA -->
+<div id="lock-screen">
+  <div>
+    <p class="lock-subtitle">para você abrir</p>
+    <h1 class="lock-title">um mês<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.8em;">nosso</em></h1>
+  </div>
+  <div class="pin-wrapper">
+    <div class="pin-dots">
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+      <div class="pin-dot" id="d4"></div>
     </div>
-
-    <div id="envelope-screen">
-        <div class="envelope-wrapper">
-            <div class="envelope-body"></div>
-            <div class="envelope-flap"></div>
-            <div class="envelope-heart">❤️</div>
-            <div id="envelope-text">Clique para abrir</div>
-        </div>
+    <p class="pin-error" id="pin-error">tenta de novo, amor</p>
+    <div class="numpad" id="numpad">
+      <button class="num-btn" data-n="1">1</button>
+      <button class="num-btn" data-n="2">2</button>
+      <button class="num-btn" data-n="3">3</button>
+      <button class="num-btn" data-n="4">4</button>
+      <button class="num-btn" data-n="5">5</button>
+      <button class="num-btn" data-n="6">6</button>
+      <button class="num-btn" data-n="7">7</button>
+      <button class="num-btn" data-n="8">8</button>
+      <button class="num-btn" data-n="9">9</button>
+      <button class="num-btn empty"></button>
+      <button class="num-btn" data-n="0">0</button>
+      <button class="num-btn del" id="del-btn">⌫</button>
     </div>
+    <p class="pin-hint">digite a data que a gente começou</p>
+  </div>
+</div>
 
-    <div id="content">
-        <div class="letter-container">
-            
-            <h2 class="fade-in-section">💌 Introdução</h2>
-            <p class="fade-in-section">
-                Vida… então, eu arrumei um novo jeito — ou melhor, um novo método de dizer que te amo. Quis inovar de verdade. 
-                Criei essa página pra você entender que eu não só te amo, mas também quis te deixar um presente fora de época — sem data especial, sem motivo, sem “ocasião certa”. 
-                Não é só sobre os chocolates, os Bis, os bombom… é sobre o gesto, sobre o jeito diferente que encontrei pra te lembrar o quanto <strong>você é especial pra mim.</strong> 
-                Esse presente é, acima de tudo, a forma como estou dizendo <strong>“eu te amo”</strong>.
-            </p>
+<!-- POPUP FOTO -->
+<div id="photo-popup">
+  <div class="popup-backdrop" onclick="fecharPopup()"></div>
+  <div class="popup-img-wrap">
+    <button class="popup-close" onclick="fecharPopup()">✕</button>
+    <img id="popup-img" src="" alt="">
+    <p class="popup-caption" id="popup-caption"></p>
+  </div>
+</div>
 
-            <hr class="fade-in-section">
+<!-- ALERTA ERRO SENHA -->
+<div id="erro-alerta">
+  <div class="erro-backdrop"></div>
+  <div class="erro-card">
+    <span class="erro-icon">🔒</span>
+    <p class="erro-titulo">Senha errada</p>
+    <p class="erro-msg">Pensa bem, amor.<br>É uma data especial pra você.</p>
+    <button class="erro-btn" onclick="fecharErro()">tentar novamente</button>
+  </div>
+</div>
 
-            <h2 class="fade-in-section">❤️ O que eu sinto</h2>
-            <p class="fade-in-section">
-                Vida, agora faltam <span id="countdown">carregando...</span> pra acabar meu contrato — e não é sobre isso.
-                Na verdade, é sobre o improvável que você fez.
-                Você correu atrás, fez acontecer, só pra gente poder se ver, sair, ter os nossos momentos. Poxa… você fez coisas que, lá no começo, eu nem imaginava.
-                E mesmo assim, foi lá e fez.
-                Então eu não só tenho que te agradecer por tudo que adiantou, mas também por quem você é.
-            </p>
-            <p class="fade-in-section">
-                Você me encanta em todos os momentos.
-                Toda vez que eu te vejo — mesmo quando tô triste, cansado ou chateado — basta olhar teu sorriso, teu rostinho lindo… e pronto, tudo muda.
-                Mesmo quando eu tento disfarçar, você mexe comigo pra caralho.
-            </p>
+<!-- CONTEÚDO -->
+<div id="main" style="display:none;">
 
-            <hr class="fade-in-section">
-
-            <h2 class="fade-in-section">📈 Nosso Crescimento</h2>
-            <p class="fade-in-section">
-                Eu sei que você entende minhas expectativas, e que vamos dar um passo de cada vez.
-                Desde começar a namorar oficialmente, no tempo certo, até — quem sabe — sonhar com algo maior, tipo casar.
-                Não falo de igreja, mas de um lugar com uma energia nossa, com sintonia, leveza e amor de verdade.
-            </p>
-            <p class="fade-in-section">
-                Eu sei que tem coisas em mim que não fazem parte do teu mundo — assim como tem coisas tuas que não fazem parte do meu.
-                Mas a gente já aprendeu a se respeitar.
-                E eu tô realmente disposto a mudar o que for preciso pra evitar conflitos — não só por você, mas porque eu quero evoluir.
-                Com você, eu me vejo crescendo.
-            </p>
-
-            <hr class="fade-in-section">
-
-            <h2 class="fade-in-section">🗓️ Nossas Lembranças</h2>
-            <p class="fade-in-section">
-                Ah, e lembra do livro que você me deu — “Nunca Desista dos Seus Sonhos”, do Augusto Cury?
-                Pois é, ele me ajudou muito.
-                Assim como nossas conversas, que abriram minha mente e me fizeram enxergar a vida de outro jeito.
-                Foi quase uma terapia, sabia?
-            </p>
-
-            <hr class="fade-in-section">
-
-            <h2 class="fade-in-section">💍 Nossos Planos</h2>
-            <p class="fade-in-section">
-                Eu tenho muitos planos pra nós dois — e sei que você também tem.
-                Vamos alinhar tudo, um passo por vez, pra fazer o possível (e o impossível) pra que os dois sejam felizes de verdade.
-            </p>
-
-            <hr class="fade-in-section">
-
-            <h2 class="fade-in-section">Para Terminar...</h2>
-            <p class="fade-in-section">
-                E pra encerrar essa carta do meu jeito, sem muito roteiro, só sentimento:
-            </p>
-            <p class="fade-in-section">
-                <strong>Eu te amo pra caralho.</strong><br>
-                <strong>Você é o cara mais lindo, gostoso e sedutor que eu já me relacionei.</strong><br>
-                <strong>Te amo, te quero — e você já faz parte de mim.</strong>
-            </p>
-        </div>
+  <section class="hero">
+    <p class="hero-date">04 de abril · 04 de maio · 2026</p>
+    <h1 class="hero-title">
+      1
+      <span>mês</span>
+    </h1>
+    <p class="hero-sub">e já parece que te conheço a vida toda.</p>
+    <div class="scroll-hint">
+      <span>nossa história</span>
+      <div class="scroll-line"></div>
     </div>
+  </section>
 
-    <div id="music-control">🔇</div>
+  <!-- LINHA DO TEMPO -->
+  <section class="section">
+    <div class="section-label">como tudo começou</div>
+    <div class="timeline">
 
-    <footer id="page-footer">
-        © 2025 Carlos Henrique Tourinho Santana
-    </footer>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">21 e 22 de março</p>
+        <h2 class="timeline-title">O Grindr, o Instagram, e o destino</h2>
+        <p class="timeline-text">
+          Ele tinha me visto no Grindr, mas minhas mensagens de lá eu nem abria — muita gente. Então ele foi atrás do meu Instagram no perfil, me chamou por lá. E por alguma coincidência do destino, eu respondi. Na tarde do sábado, dia 21, a gente se encontrou pela primeira vez. No domingo fomos ao cinema ver <em>O Devorador de Estrelas</em> — e naquela noite, quando tocou <em>Sign of the Times</em> do Harry Styles na tela, a gente se olhou e soube. Saímos do cinema e fomos dormir num hotel pego de última hora perto do Hangar, em Salvador. Essa música virou nossa música. E desde esse dia, a gente se viu todos os dias — com exceção de um só.
+        </p>
+        <div class="music-highlight">
+          <span class="music-label">nossa música</span>
+          <p class="music-name">Harry Styles — Sign of the Times</p>
+          <p class="music-sub">tocou no cinema naquela noite, e ficou pra sempre com a gente ♡</p>
+        </div>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">04 de abril · fim de semana em Piatã</p>
+        <h2 class="timeline-title">A academia, a barra, e o sim</h2>
+        <p class="timeline-text">
+          Um dia inteiro que ficou gravado em mim.<br><br>
+          Começou com café da manhã numa delicatessen — aquela calma boa de fim de semana, sem pressa, só a gente dois. Voltamos pro studio, ficamos um tempo ali, e depois fomos treinar na SmartFit. Foi lá, enquanto você pegava barra, que uma senhora puxou papo comigo e perguntou se eu era personal trainer. Eu disse que não, e a gente riu — do jeito leve que a gente ri quando tá bem, quando tá no lugar certo.<br><br>
+          E foi nesse momento, simples e perfeito, que eu te pedi em namoro. Sem cerimônia, sem roteiro ensaiado. Só eu, você, e a certeza de que queria isso de verdade.<br><br>
+          Depois ainda fomos almoçar juntos. Um dia completo. Do tipo que a gente não esquece.<br><br>
+          Tudo que você me proporcionou nesse dia — cada detalhe, cada hora — foi incrível. Do jeito que a gente é.
+        </p>
+        <div class="music-highlight">
+          <span class="music-label">também é nossa</span>
+          <p class="music-name">Marina Sena — Combo da Sorte</p>
+          <p class="music-sub">porque foi exatamente isso — sorte, em forma de você ♡</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">09 de abril</p>
+        <h2 class="timeline-title">A primeira refeição</h2>
+        <p class="timeline-text">
+          Primeira vez que fui à casa dos seus pais. Você cozinhou pra mim pela primeira vez — e foi inexplicável. Não tem palavra certa pra descrever o que aquele momento significou. Só sei que eu me senti em casa.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">12 de abril · Stella Maris, Salvador</p>
+        <h2 class="timeline-title">O Airbnb em Stella</h2>
+        <p class="timeline-text">
+          Mais um fim de semana que foi além do que qualquer palavra consegue descrever. Em Stella Maris, só a gente dois — foi incrível. Do tipo de memória que a gente guarda pra sempre.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">desde então</p>
+        <h2 class="timeline-title">Intenso, presente, real</h2>
+        <p class="timeline-text">
+          Já conheci seus amigos, sua família, sua irmã, seus pais. Você entrou na minha vida de um jeito que não dá pra imaginar como era antes. A gente está construindo algo — de verdade.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">agosto de 2026 · em breve</p>
+        <h2 class="timeline-title">Nossa casa</h2>
+        <p class="timeline-text">
+          Logo vamos juntar nossas coisinhas, escolher uma casa, dividir um mesmo teto. Planejar juntos. Acordar juntos. Eu mal posso esperar por esse próximo capítulo com você.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <div class="gallery-section">
+    <div class="gallery-inner">
+      <div class="section-label">nós</div>
+      <div class="gallery-grid">
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_8544.JPG', 'do jeitinho que a gente é')">
+          <img src="/media/IMG_8544.JPG" alt="nós dois" loading="lazy">
+          <div class="photo-caption">do jeitinho que a gente é</div>
+        </div>
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_7628.JPG', 'sempre juntos')">
+          <img src="/media/IMG_7628.JPG" alt="nós dois" loading="lazy">
+          <div class="photo-caption">sempre juntos</div>
+        </div>
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_7400.JPG', 'um mês de tudo isso')">
+          <img src="/media/IMG_7400.JPG" alt="nós dois" loading="lazy">
+          <div class="photo-caption">um mês de tudo isso</div>
+        </div>
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_6078.JPG', 'Piatã — o dia do sim ♡')">
+          <img src="/media/IMG_6078.JPG" alt="Airbnb Piatã" loading="lazy">
+          <div class="photo-caption">Piatã — o dia do sim ♡</div>
+        </div>
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_7012.JPG', 'a primeira vez que você cozinhou pra mim ♡')">
+          <img src="/media/IMG_7012.JPG" alt="primeira refeição" loading="lazy">
+          <div class="photo-caption">a primeira vez que você cozinhou pra mim ♡</div>
+        </div>
+        <div class="photo-card" onclick="abrirPopup('/media/IMG_7332.JPG', 'Stella Maris — 12 de abril ♡')">
+          <img src="/media/IMG_7332.JPG" alt="Airbnb Stella Maris" loading="lazy">
+          <div class="photo-caption">Stella Maris — 12 de abril ♡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARTA -->
+  <section class="letter-section">
+    <div class="section-label" style="justify-content:center;margin-bottom:1.5rem;">pra você</div>
+    <p class="letter-body">
+      Eu não sabia que um mês podia mudar tanto.<br><br>
+      Desde que a gente se encontrou, eu entendi o que é <em>presença de verdade</em>. Você não é o tipo de coisa que acontece devagar — você chegou com tudo, e ficou.<br><br>
+      Eu te vejo. Nos detalhes que você acha que passam despercebidos. Na forma como você cuida, no jeito que você ri, na leveza que você traz pra um dia comum — uma academia, uma barra, uma senhora perguntando se eu sou personal. Eu guardo tudo isso.<br><br>
+      Cada dia com você tem peso. Tem significado. Tem aquela sensação de que eu estou exatamente onde preciso estar.<br><br>
+      Você me dá segurança. Não do tipo que sufoca — do tipo que deixa a gente ser. E isso é raro. Você é raro.<br><br>
+      <em>Obrigado por ser você. Por cada momento. Por agosto já estar na nossa cabeça.</em><br><br>
+      Feliz um mês, amor.
+    </p>
+    <p class="letter-sign">com todo o meu amor, Henrique ♡</p>
+  </section>
+
+  <!-- CONTADOR -->
+  <div class="counter-section">
+    <span class="counter-label">juntos há</span>
+    <p class="counter-display" id="counter">—</p>
+    <p class="future-note">e em agosto, a gente transforma isso em lar.</p>
+  </div>
+
+  <footer>
+    <p>04.04.2026 · feito com amor ♡</p>
+  </footer>
+
+</div>
+
+<button id="music-btn" title="música">♪</button>
+
+<script>
+  // POPUP DE FOTOS
+  function abrirPopup(src, caption) {
+    const popup = document.getElementById('photo-popup');
+    document.getElementById('popup-img').src = src;
+    document.getElementById('popup-caption').textContent = caption;
+    popup.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function fecharPopup() {
+    document.getElementById('photo-popup').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') fecharPopup();
+  });
+
+  // PARTÍCULAS
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.bottom = '-10px';
+    p.style.animationDuration = (Math.random() * 10 + 12) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.width = p.style.height = (Math.random() * 4 + 2) + 'px';
+    particlesEl.appendChild(p);
+  }
+
+  // PIN
+  const SENHAS = ['2103', '2104', '0404'];
+  let pin = '';
+  const dots = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
+  const pinError = document.getElementById('pin-error');
+
+  function updateDots() {
+    dots.forEach((d, i) => d.classList.toggle('filled', i < pin.length));
+  }
+
+  function fecharErro() {
+    document.getElementById('erro-alerta').classList.remove('show');
+  }
+
+  function erroSenha() {
+    bipTeclado('erro');
+    dots.forEach(d => d.classList.add('shake'));
+    pinError.classList.add('show');
+    pin = '';
+    updateDots();
+    setTimeout(() => {
+      dots.forEach(d => d.classList.remove('shake'));
+      pinError.classList.remove('show');
+      document.getElementById('erro-alerta').classList.add('show');
+    }, 600);
+  }
+
+  function checkPin() {
+    if (SENHAS.includes(pin)) {
+      bipTeclado('ok');
+      setTimeout(() => {
+        document.getElementById('lock-screen').classList.add('hidden');
+        document.getElementById('main').style.display = 'block';
+        document.getElementById('music-btn').style.display = 'flex';
+        setTimeout(() => {
+          bgMusic.play().catch(() => {});
+          musicPlaying = true;
+          musicBtn.textContent = '♬';
+        }, 800);
+        setTimeout(initObservers, 100);
+      }, 400);
+    } else {
+      erroSenha();
+    }
+  }
+
+  document.getElementById('numpad').addEventListener('click', e => {
+    const btn = e.target.closest('.num-btn');
+    if (!btn) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (btn.id === 'del-btn') {
+      if (pin.length > 0) bipTeclado('del');
+      pin = pin.slice(0, -1);
+      updateDots();
+      return;
+    }
+    const n = btn.getAttribute('data-n');
+    if (n === null || pin.length >= 4) return;
+    bipTeclado('key');
+    pin += n;
+    updateDots();
+    if (pin.length === 4) setTimeout(checkPin, 200);
+  });
+
+  // CONTADOR
+  function atualizarContador() {
+    const inicio = new Date('2026-04-04T00:00:00').getTime();
+    const agora = Date.now();
+    const diff = agora - inicio;
+    const dias = Math.floor(diff / 86400000);
+    const horas = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const segs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('counter').textContent =
+      dias + ' dias, ' + horas + 'h ' + mins + 'm ' + segs + 's';
+  }
+
+  // SCROLL REVEAL
+  function initObservers() {
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.timeline-item, .photo-card, .letter-body, .letter-sign').forEach(el => observer.observe(el));
+  }
+
+  // SOM DE TECLADO (Web Audio API — sem arquivo externo)
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function bipTeclado(tipo) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (tipo === 'key') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1100, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.07);
+      gain.gain.setValueAtTime(0.55, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.1);
+    } else if (tipo === 'del') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(350, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.09);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.09);
+    } else if (tipo === 'erro') {
+      [0, 0.13, 0.26].forEach((delay, i) => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(280 - i * 50, audioCtx.currentTime + delay);
+        g.gain.setValueAtTime(0.5, audioCtx.currentTime + delay);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + 0.12);
+        o.start(audioCtx.currentTime + delay);
+        o.stop(audioCtx.currentTime + delay + 0.12);
+      });
+    } else if (tipo === 'ok') {
+      [523, 659, 784].forEach((freq, i) => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.type = 'sine';
+        o.frequency.value = freq;
+        g.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+        g.gain.linearRampToValueAtTime(0.45, audioCtx.currentTime + i * 0.1 + 0.04);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.5);
+        o.start(audioCtx.currentTime + i * 0.1);
+        o.stop(audioCtx.currentTime + i * 0.1 + 0.5);
+      });
+    }
+  }
+
+  // MÚSICA DE FUNDO
+  const bgMusic = new Audio('/media/musica.mp3');
+  bgMusic.loop = true;
+  bgMusic.volume = 0.4;
+
+  const musicBtn = document.getElementById('music-btn');
+  let musicPlaying = false;
+
+  musicBtn.addEventListener('click', () => {
+    if (musicPlaying) {
+      bgMusic.pause();
+      musicPlaying = false;
+      musicBtn.textContent = '♪';
+    } else {
+      bgMusic.play().catch(() => {});
+      musicPlaying = true;
+      musicBtn.textContent = '♬';
+    }
+  });
+</script>
 </body>
-    </html>
-    
+</html>
